@@ -230,8 +230,13 @@ def separate_():
                 #Get_categoria
                 if arr_filter[9] == item:
                     separate_categoria = new_str.split(", ")
-                    categoria_ = separate_categoria[-1]
-                    categoria_ = categoria_.replace("Categoria ", "")
+                    categoria_s = remove_empty_spaces(separate_categoria)
+                    categoria_ = categoria_s[-1]
+                    categoria_ = categoria_.replace("Categoria ", "").replace("Categoria", "")
+                    if not categoria_:
+                        # print(categoria_)
+                        categoria_ = nan
+                        
                     # print(categoria_)
                     arr_categoria.append(categoria_)
                     
