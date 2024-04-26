@@ -1,5 +1,5 @@
+from hmac import new
 from math import nan
-from traceback import print_tb
 import pandas as pd
 from tqdm import tqdm
 import re
@@ -31,7 +31,12 @@ arr_filter = ["Integrado",
               "Aves Faltantes",
               "Peso Médio",
               "GPD",
-              "Peso Total"
+              "Peso Total",
+              "CAAF",
+              "Ração Consumida",
+              "Valor do Frango Vivo por Kg em R$",
+              "Instalações No",
+              "Valor da Ração por Kg em R$"
             ]
 
 file_execel = 'TABELA_1.csv'
@@ -106,6 +111,12 @@ def separate_():
     peso_medio_f_arr = []
     gpd_arr = []
     peso_total_arr = []
+    caaf_arr = []
+    racao_c_arr = []
+    valor_kg_f_arr = []
+    aviario_arr = []
+    valor_kg_racao_arr = []
+    
     arr_pedido = []
     
     
@@ -145,7 +156,10 @@ def separate_():
         for char in chars_to_remove:
             input_str = input_str.replace(char, "")
         return input_str
-              
+    
+    def converter_para_float(numero_str):
+        numero_str = numero_str.replace(',', '.')
+        return float(numero_str)          
      #ITERA SOBRE O NOVO DATA FRAME FILTRADO
     for index, row in df.iterrows():
         line_item = str(row[0])
@@ -384,9 +398,67 @@ def separate_():
                     if not separate_p_total:
                         separate_p_total = nan
                     peso_total_arr.append(separate_p_total)
-                    
                 
-    # print(len())
+                # GET_CAAF
+                if arr_filter[26] == item:
+                    separate_caaf = new_str.split(", ")
+                    separate_caaf = remove_empty_spaces(separate_caaf)
+                    if (len(separate_caaf)) > 2:
+                        caaf = separate_caaf[-1].replace("CAAF ", "").replace("CAAF", "")
+                        if not caaf:
+                            caaf = nan
+                        caaf_arr.append(caaf)
+                
+                # GET_Ração Consumida
+                if arr_filter[27] == item:
+                    separate_racao_c = new_str.split(", ")
+                    separate_racao_c = remove_empty_spaces(separate_racao_c)
+                    racao_c = separate_racao_c[-1].replace("Ração Consumida ", "").replace("Ração Consumida", "")
+                    if not racao_c:
+                        racao_c = nan
+                    racao_c_arr.append(racao_c)
+                
+                # GET_Valor do Frango Vivo por Kg em R$
+                if arr_filter[28] == item:
+                    separate_valor_f = new_str.split(", ")
+                    separate_valor_f = remove_empty_spaces(separate_valor_f)
+                    if len(separate_valor_f) == 2:
+                        valor_f = (separate_valor_f[-1].replace("Valor do Frango Vivo por Kg em R$ ", "").replace("Valor do Frango Vivo por Kg em R$", ""))
+                    if (len(separate_valor_f)) > 2:
+                        valor_f = separate_valor_f[-1]
+                    valor_f = converter_para_float(valor_f)
+                    valor_kg_f_arr.append(valor_f)
+                    
+                    # 
+    
+                # GET_aviario_instalacoes
+                if arr_filter[29] == item:
+                    separate_av = new_str.split(", ")
+                    separate_av = remove_empty_spaces(separate_av)
+                    f = list(find_numbers(separate_av[2]))
+                    inst_ = separate_av[1].replace("Instalações No ", "").replace("Instalações No", "")
+                    if not f:
+                        f = ""
+                        inst_ = inst_
+                    if f:
+                        f=f[0]
+                        inst_ = inst_ +","+f
+                        
+                    aviario_arr.append(inst_)
+                
+                # GET_Valor da Ração por Kg em R$:
+                if arr_filter[30] == item:
+                    separate_kg_raca=new_str.split(", ")
+                    separate_kg_raca = remove_empty_spaces(separate_kg_raca)
+                    if len(separate_kg_raca) == 2:
+                        val_kg = separate_kg_raca[-1].replace("Valor da Ração por Kg em R$ ", "").replace("Valor da Ração por Kg em R$", "")
+                    if len(separate_kg_raca) > 2:
+                        val_kg = separate_kg_raca[-1]
+                    val_kg = converter_para_float(val_kg)
+                    valor_kg_racao_arr.append(val_kg)
+    # print(len(aviario_arr))
+                
+    # print(len(valor_kg_f_arr))
     
     # #grava os dados para a nova tabela
     arr_pedido = list(dict.fromkeys(mod))
@@ -398,7 +470,7 @@ def separate_():
     new_dataFrame["TECNICO"] = tecnico_arr
     new_dataFrame["AREA_ALOJ"] = arr_area_aloj
     new_dataFrame["TELEFONE"] = telefone_arr
-    
+    new_dataFrame["AVIARIO"] = aviario_arr
     new_dataFrame["EMAIL"] = email_arr
     new_dataFrame["T_VENTILACAO"] = t_vent_arr
     new_dataFrame["TIPO_PRODUTO"] = arr_categoria
@@ -419,7 +491,11 @@ def separate_():
     new_dataFrame["PESO_MEDIO" ] = peso_medio_f_arr
     new_dataFrame["GPD" ] = gpd_arr
     new_dataFrame["PESO_TOTAL" ] = peso_total_arr
-    new_dataFrame["LOTE"] = arr_pedido    
+    new_dataFrame["CAAF"] = caaf_arr
+    new_dataFrame["RACAO_CONSUMIDA"] = racao_c_arr
+    new_dataFrame["VALOR_KG_FRANGO"] = valor_kg_f_arr
+    new_dataFrame["VALOR_KG_RACAO"] = valor_kg_racao_arr
+    # new_dataFrame["LOTE"] = arr_pedido
     
     
     
