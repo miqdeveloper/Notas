@@ -1,7 +1,5 @@
-from hmac import new
 from math import nan
-from operator import le
-from turtle import mode
+from traceback import print_tb
 import pandas as pd
 from tqdm import tqdm
 import re
@@ -27,7 +25,13 @@ arr_filter = ["Integrado",
               "Aves/m2",
               "Qtde Abatida",
               "Mort. Tota",
-              "Qtde Mortos"
+              "Qtde Mortos",
+              "Qtde Eliminados",
+              "Idade Abate",
+              "Aves Faltantes",
+              "Peso Médio",
+              "GPD",
+              "Peso Total"
             ]
 
 file_execel = 'TABELA_1.csv'
@@ -96,7 +100,12 @@ def separate_():
     qabate_arr = []
     mort_total_arr = []
     quant_mortes_arr = []
-    
+    quant_eliminados_arr = []
+    idade_abate_arr = []
+    aves_faltantes_arr = []
+    peso_medio_f_arr = []
+    gpd_arr = []
+    peso_total_arr = []
     arr_pedido = []
     
     
@@ -316,6 +325,69 @@ def separate_():
                     separate_qmortes = separate_qmortes[-1].replace("Qtde Mortos ", "").replace("Qtde Mortos", "")
                     quant_mortes_arr.append(separate_qmortes)
                     
+                # GET_Qtde Eliminados 
+                if arr_filter[20] == item:
+                    separate_qmt_eliminados = new_str.split(", ")
+                    separate_qmt_eliminados = remove_empty_spaces(separate_qmt_eliminados)
+                    separate_qmt_eliminados = separate_qmt_eliminados[-1].replace("Qtde Eliminados ", "").replace("Qtde Eliminados", "")
+                    if not separate_qmt_eliminados:
+                        separate_qmt_eliminados = nan
+                    quant_eliminados_arr.append(separate_qmt_eliminados)
+                    
+                # GET_Idade Abate 
+                if arr_filter[21] == item:
+                    separate_idade_abate = new_str.split(", ")
+                    separate_idade_abate = remove_empty_spaces(separate_idade_abate)
+                    separate_idade_abate = separate_idade_abate[1].replace("Idade Abate ", "").replace("Idade Abate", "")
+                    if not separate_idade_abate:
+                        separate_idade_abate = nan
+                        
+                    idade_abate_arr.append(separate_idade_abate)
+                
+                #GET_Aves Faltantes
+                if arr_filter[22] == item:
+                    separate_aves_falt = new_str.split(", ")
+                    separate_aves_falt = remove_empty_spaces(separate_aves_falt)
+                    separate_aves_falt = separate_aves_falt[-1].replace("Aves Faltantes ", "").replace("Aves Faltantes", "")
+                    if not separate_aves_falt:
+                        separate_aves_falt = nan
+                    aves_faltantes_arr.append(separate_aves_falt)
+                    
+                #GET_Peso Médio
+                if arr_filter[23] == item:
+                    separate_peso_m_f = new_str.split(", ")
+                    separate_peso_m_f = remove_empty_spaces(separate_peso_m_f)
+                    
+                    if len(separate_peso_m_f) == 3:
+                        separate_peso_m_f = separate_peso_m_f[1]
+                        separate_peso_m_f = separate_peso_m_f.replace("Peso Médio ", "").replace("Peso Médio", "")
+                        
+                        if not separate_peso_m_f:
+                            separate_peso_m_f = nan
+                            
+                        peso_medio_f_arr.append(separate_peso_m_f)
+                
+                # GET_GPD
+                if arr_filter[24] == item:
+                    separate_gpd = new_str.split(", ")
+                    separate_gpd = remove_empty_spaces(separate_gpd)
+                    gpd_ = separate_gpd[-1].replace("GPD ", "").replace("GPD", "")
+                    if not gpd_:
+                        gpd_ = nan
+                    gpd_arr.append(gpd_)
+                    
+                # GET_peso total
+                if arr_filter[25] == item:
+                    separate_p_total = new_str.split(", ")
+                    separate_p_total = remove_empty_spaces(separate_p_total)
+                    separate_p_total = separate_p_total[1].replace("Peso Total", "").replace("Peso Total ", "")
+                    if not separate_p_total:
+                        separate_p_total = nan
+                    peso_total_arr.append(separate_p_total)
+                    
+                
+    # print(len())
+    
     # #grava os dados para a nova tabela
     arr_pedido = list(dict.fromkeys(mod))
     # print(len(tecnico_arr), len(key_arr))
@@ -339,10 +411,17 @@ def separate_():
     new_dataFrame["QUANT_ABATE"] = qabate_arr
     new_dataFrame["MORTE_TOTAL"] = mort_total_arr
     new_dataFrame["QUANTIDADE_MORTOS"] = quant_mortes_arr
+    new_dataFrame["QUANTIDADE_ELIMINADOS"] = quant_eliminados_arr
     new_dataFrame["DATA_ABATE"] = arr_data_abate
+    new_dataFrame["IDADE_ABATE"] = idade_abate_arr
+    new_dataFrame["PM_PINTO"] = arr_peso_medio
+    new_dataFrame["AVES_FALTANTES"] = aves_faltantes_arr
+    new_dataFrame["PESO_MEDIO" ] = peso_medio_f_arr
+    new_dataFrame["GPD" ] = gpd_arr
+    new_dataFrame["PESO_TOTAL" ] = peso_total_arr
     new_dataFrame["LOTE"] = arr_pedido    
     
-    new_dataFrame["PM_PINTO"] = arr_peso_medio
+    
     
     
     
