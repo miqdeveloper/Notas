@@ -456,6 +456,8 @@ def separate_():
                         val_kg = separate_kg_raca[-1]
                     val_kg = converter_para_float(val_kg)
                     valor_kg_racao_arr.append(val_kg)
+                    
+                # Get_
     # print(len(aviario_arr))
                 
     # print(len(valor_kg_f_arr))
