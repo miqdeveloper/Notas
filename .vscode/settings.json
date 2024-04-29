@@ -1,0 +1,7 @@
+{
+    "python.analysis.autoImportCompletions": true,
+    "[python]": {
+        "editor.defaultFormatter": null
+    },
+    "git.ignoreLimitWarning": true
+}
