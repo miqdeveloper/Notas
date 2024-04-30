@@ -1,10 +1,9 @@
-from hmac import new
 from math import nan
+from traceback import print_tb
 import pandas as pd
 from tqdm import tqdm
 import re
 
-from yarg import get 
 # 'ArquivosCSV/file_csv.csv'
 arr_filter = ["Integrado", 
               "Pedido", 
@@ -36,7 +35,9 @@ arr_filter = ["Integrado",
               "Ração Consumida",
               "Valor do Frango Vivo por Kg em R$",
               "Instalações No",
-              "Valor da Ração por Kg em R$"
+              "Valor da Ração por Kg em R$",
+              "Valor do Pinto em R$",
+              "Percentual Basico",
             ]
 
 file_execel = 'TABELA_1.csv'
@@ -116,6 +117,8 @@ def separate_():
     valor_kg_f_arr = []
     aviario_arr = []
     valor_kg_racao_arr = []
+    valor_pinto_real_arr = []
+    percentual_basico_arr = []
     
     arr_pedido = []
     
@@ -162,7 +165,8 @@ def separate_():
         return float(numero_str)          
      #ITERA SOBRE O NOVO DATA FRAME FILTRADO
     for index, row in df.iterrows():
-        line_item = str(row[0])
+        line_item = str(row.iloc[0])
+        # print(line_item)
         # print(line_item)
         
         new_str = re.sub(r"\[|\]", "", line_item)
@@ -429,8 +433,7 @@ def separate_():
                     valor_f = converter_para_float(valor_f)
                     valor_kg_f_arr.append(valor_f)
                     
-                    # 
-    
+                
                 # GET_aviario_instalacoes
                 if arr_filter[29] == item:
                     separate_av = new_str.split(", ")
@@ -457,7 +460,34 @@ def separate_():
                     val_kg = converter_para_float(val_kg)
                     valor_kg_racao_arr.append(val_kg)
                     
+                # GET_VALOR_REAL_pinto
+                if arr_filter[31] == item:
+                    separate_pinto=new_str.split(", ")
+                    separate_pinto=remove_empty_spaces(separate_pinto)
+                    if len(separate_pinto) > 2:
+                        val_pinto= converter_para_float(separate_pinto[-1])
+                    elif len(separate_pinto) == 2:
+                        val_pinto = converter_para_float(separate_pinto[-1].replace("Valor do Pinto em R$ ", "").replace("Valor do Pinto em R$", ""))
+                    
+                    valor_pinto_real_arr.append(val_pinto)
+                
+                # GET_percentual_basico
+                if arr_filter[32] == item:                    
+                    separate_percentual=new_str.split(", ")
+                    separate_percentual = remove_empty_spaces(separate_percentual)
+                    percent_basic = separate_percentual[1].replace("Percentual Basico ", "").replace("Percentual Basico", "")
+                    # percent_basic = converter_para_float(percent_basic)                    
+                    if not percent_basic:
+                       percent_basic = separate_percentual[2].split(" ")
+                       percent_basic = percent_basic[0]
+                    #    percent_basic = converter_para_float(percent_basic)
+                    percent_basic = converter_para_float(percent_basic)
+                    # print(percent_basic)
+                    percentual_basico_arr.append(percent_basic)
+                 
                 # Get_
+                if arr_filter[33] == item:                    
+                    separate_percentual=new_str.split(", ")
     # print(len(aviario_arr))
                 
     # print(len(valor_kg_f_arr))
@@ -497,6 +527,8 @@ def separate_():
     new_dataFrame["RACAO_CONSUMIDA"] = racao_c_arr
     new_dataFrame["VALOR_KG_FRANGO"] = valor_kg_f_arr
     new_dataFrame["VALOR_KG_RACAO"] = valor_kg_racao_arr
+    new_dataFrame["VALOR_DO_PINTO"] = valor_pinto_real_arr
+    new_dataFrame["PERCENTUAL_BASICO"] = percentual_basico_arr
     # new_dataFrame["LOTE"] = arr_pedido
     
     
