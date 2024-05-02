@@ -1,5 +1,4 @@
 from math import nan
-from traceback import print_tb
 import pandas as pd
 from tqdm import tqdm
 import re
@@ -38,6 +37,7 @@ arr_filter = ["Integrado",
               "Valor da Ração por Kg em R$",
               "Valor do Pinto em R$",
               "Percentual Basico",
+              "Aj Escala Produção",
             ]
 
 file_execel = 'TABELA_1.csv'
@@ -119,7 +119,8 @@ def separate_():
     valor_kg_racao_arr = []
     valor_pinto_real_arr = []
     percentual_basico_arr = []
-    
+    carne_base_arr = []
+    real_base_arr = []
     arr_pedido = []
     
     
@@ -130,8 +131,12 @@ def separate_():
     arr_area_aloj = []
     arr_data_abate = []
     
-    
+    aj_porcent_arr = []
+    aj_kg_arr = []
+    aj_real_arr = []
+
     mod = []
+    mod_2 = []
     
     df = pd.read_csv(file_execel)
     
@@ -471,27 +476,85 @@ def separate_():
                     
                     valor_pinto_real_arr.append(val_pinto)
                 
-                # GET_percentual_basico
+                # GET_percentual_basico AND Kg
                 if arr_filter[32] == item:                    
                     separate_percentual=new_str.split(", ")
                     separate_percentual = remove_empty_spaces(separate_percentual)
+                    
                     percent_basic = separate_percentual[1].replace("Percentual Basico ", "").replace("Percentual Basico", "")
-                    # percent_basic = converter_para_float(percent_basic)                    
+                    porcetage_percent = separate_percentual[2]
+                    mod_2.append(separate_percentual)
+                    
                     if not percent_basic:
                        percent_basic = separate_percentual[2].split(" ")
                        percent_basic = percent_basic[0]
-                    #    percent_basic = converter_para_float(percent_basic)
+                   
                     percent_basic = converter_para_float(percent_basic)
-                    # print(percent_basic)
+                  
                     percentual_basico_arr.append(percent_basic)
-                 
-                # Get_
-                if arr_filter[33] == item:                    
-                    separate_percentual=new_str.split(", ")
-    # print(len(aviario_arr))
                 
-    # print(len(valor_kg_f_arr))
+                # GET_AJ_%_Kg_R$
+                if arr_filter[33] == item:
+                    aj_separate = new_str.split(", ")
+                    aj_separate = remove_empty_spaces(aj_separate)
+                    
+                    # aj_porcent_arr.append(aj_separate)
+                    
+                    if len(aj_separate) == 3:
+                        # %_percent_aj
+                        aj_percent = aj_separate[1]
+                        percent_aj = aj_percent.replace("Aj Escala Produção ", "").replace("Aj Escala Produção", "")
+                                                
+                        # aj_kg
+                        kg_aj_separate = aj_separate[-1].split(" ")
+                        kg_aj_separate = kg_aj_separate[1]
+                        print()
+                        if len(kg_aj_separate) == 3:
+                            kg_aj_separate[1]
+                        
+                        if not percent_aj:
+                            percent_aj = aj_separate[-1].split(" ")
+                            percent_aj_ = percent_aj[0]
+                            # aj_porcent_arr.append(percent_aj_)
+                        
+                        aj_porcent_arr.append(percent_aj)
+                            # print(percent_aj)
+                        
+                         # get_kg_aj_prd
+                        # aj_kg_arr.append()
+                    if len(aj_separate) == 4:
+                        # print()
+                        aj_porcent_arr.append(aj_separate[2])
     
+    # aj_kg_arr = []
+    # aj_real_arr = []
+    
+    # A partir doGET_percentual_basico pega Get_Kg_carne e pega $R_Base
+    for eval_ in mod_2:
+        if len(eval_) == 3:            
+            carne_final = eval_[2].split(" ")[1]
+            real_base = eval_[2].split(" ")[-1]
+            real_base_arr.append(real_base)
+            
+            # print(real_base)
+            
+            carne_base_arr.append(carne_final)
+            
+        if len(eval_) == 4:
+            carne_base_arr.append(eval_[2])
+            real_base = eval_[-1]
+            real_base_arr.append(real_base)
+            
+        if len(eval_) == 5:
+            carne_base_arr.append(eval_[3])
+            real_base = eval_[-1]
+            real_base_arr.append(real_base)
+            
+    # for value in aj_porcent_arr:
+        # print(value)
+    print(len(aj_kg_arr))                
+    # print(len(valor_kg_f_arr))
+    print(len(arr_filter))
     # #grava os dados para a nova tabela
     arr_pedido = list(dict.fromkeys(mod))
     # print(len(tecnico_arr), len(key_arr))
@@ -520,15 +583,17 @@ def separate_():
     new_dataFrame["IDADE_ABATE"] = idade_abate_arr
     new_dataFrame["PM_PINTO"] = arr_peso_medio
     new_dataFrame["AVES_FALTANTES"] = aves_faltantes_arr
-    new_dataFrame["PESO_MEDIO" ] = peso_medio_f_arr
-    new_dataFrame["GPD" ] = gpd_arr
-    new_dataFrame["PESO_TOTAL" ] = peso_total_arr
+    new_dataFrame["PESO_MEDIO"] = peso_medio_f_arr
+    new_dataFrame["GPD"]=gpd_arr
+    new_dataFrame["PESO_TOTAL"] = peso_total_arr
     new_dataFrame["CAAF"] = caaf_arr
     new_dataFrame["RACAO_CONSUMIDA"] = racao_c_arr
     new_dataFrame["VALOR_KG_FRANGO"] = valor_kg_f_arr
     new_dataFrame["VALOR_KG_RACAO"] = valor_kg_racao_arr
     new_dataFrame["VALOR_DO_PINTO"] = valor_pinto_real_arr
     new_dataFrame["PERCENTUAL_BASICO"] = percentual_basico_arr
+    new_dataFrame["KG_CARNE_BASE"] = carne_base_arr
+    new_dataFrame["R$_BASE"] = real_base_arr
     # new_dataFrame["LOTE"] = arr_pedido
     
     
