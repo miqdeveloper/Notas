@@ -38,6 +38,9 @@ arr_filter = ["Integrado",
               "Valor do Pinto em R$",
               "Percentual Basico",
               "Aj Escala Produção",
+              "Aj Sazonalidade",
+              "Aj Sexo e Peso",
+              "Aj Genética"
             ]
 
 file_execel = 'TABELA_1.csv'
@@ -135,6 +138,14 @@ def separate_():
     aj_kg_arr = []
     aj_real_arr = []
 
+    aj_sazonalidade_percent_arr = []
+    aj_sazonalidade_kg_arr = []
+    aj_sazonalidade_real_arr = []
+    
+    aj_sex_pes_percent_arr = []
+    aj_sex_pes_kg_arr = []
+    aj_sex_pes_real_arr = []
+    
     mod = []
     mod_2 = []
     
@@ -501,33 +512,151 @@ def separate_():
                     # aj_porcent_arr.append(aj_separate)
                     
                     if len(aj_separate) == 3:
+                        
                         # %_percent_aj
                         aj_percent = aj_separate[1]
                         percent_aj = aj_percent.replace("Aj Escala Produção ", "").replace("Aj Escala Produção", "")
-                                                
+
                         # aj_kg
                         kg_aj_separate = aj_separate[-1].split(" ")
-                        kg_aj_separate = kg_aj_separate[1]
-                        print()
+                                               
+                        if len(kg_aj_separate) ==2:
+                            kg_aj_final = kg_aj_separate[0]
                         if len(kg_aj_separate) == 3:
-                            kg_aj_separate[1]
+                            kg_aj_final = kg_aj_separate[1]
+                            # print(kg_aj_separate)
+                        
+                        # aj_R$
+                        aj_real_separate = aj_separate[-1].split(" ")
+                        aj_real_final = aj_real_separate[-1]
+                        
                         
                         if not percent_aj:
                             percent_aj = aj_separate[-1].split(" ")
-                            percent_aj_ = percent_aj[0]
-                            # aj_porcent_arr.append(percent_aj_)
+                            percent_aj = percent_aj[0]
                         
+                        percent_aj = converter_para_float(percent_aj)
                         aj_porcent_arr.append(percent_aj)
-                            # print(percent_aj)
                         
-                         # get_kg_aj_prd
-                        # aj_kg_arr.append()
+                        kg_aj_final = converter_para_float(kg_aj_final)
+                        aj_kg_arr.append(kg_aj_final)
+                        
+                        aj_real_arr.append(aj_real_final)
+
                     if len(aj_separate) == 4:
-                        # print()
+                        # print(len(aj_real_separate))
+                        kg_aj_separate = aj_separate[-1].split(" ")
+                        
+                        kg_aj_final = kg_aj_separate[0]
+                        aj_real_final = aj_separate[-1].split(" ")[-1]
+                        aj_real_arr.append(aj_real_final)
+                        
+                        # print(aj_real_final)
                         aj_porcent_arr.append(aj_separate[2])
+                        
+                        aj_kg_arr.append(kg_aj_final)
+
+                # GET_AJ_SAZONALIDADE_%_Kg_R$
+                if arr_filter[34] == item:
+                    aj_sazonalidade_separate = new_str.split(", ")
+                    aj_sazonalidade_separate = remove_empty_spaces(aj_sazonalidade_separate)
+                    n_c_ = len(aj_sazonalidade_separate)
+                    
+                    if n_c_ == 3:
+                        
+                        # GET_AJ_SAZONALIDADE_%
+                        porcetage_aj_saz = (aj_sazonalidade_separate[1].replace("Aj Sazonalidade ","").replace("Aj Sazonalidade",""))
+                        
+                        # GET_AJ_SAZONALIDADE_KG
+                        aj_saz_kg_separate = aj_sazonalidade_separate                        
+                        aj_saz_kg_separate = aj_saz_kg_separate[-1].split(" ")
+                        
+                        # GET_AJ_SAZONALIDADE_R$
+                        aj_saz_real_separate = aj_sazonalidade_separate
+                        aj_saz_real_f = (aj_saz_real_separate[-1].split(" ")[-1])
+                
+                        if len(aj_saz_kg_separate) == 2:
+                            aj_saz_kg_f = aj_saz_kg_separate[0]
+            
+                        if len(aj_saz_kg_separate) == 3:
+                            aj_saz_kg_f = aj_saz_kg_separate[1] 
+
+                        if not porcetage_aj_saz:
+                            porcetage_aj_saz = aj_sazonalidade_separate[-1].split(" ")
+                            porcetage_aj_saz = porcetage_aj_saz[0]
+                        
+                        # GET_AJ_SAZONALIDADE_R$
+                        aj_sazonalidade_real_arr.append(aj_saz_real_f)
+                        
+                        aj_sazonalidade_kg_arr.append(aj_saz_kg_f)
+                        
+                        aj_sazonalidade_percent_arr.append(porcetage_aj_saz)
+                        
+                        
+                    elif n_c_ == 4:
+                        
+                        # GET_AJ_SAZONALIDADE_%
+                        porcetage_aj_saz = (aj_sazonalidade_separate[1].replace("Aj Sazonalidade ","").replace("Aj Sazonalidade",""))
+                        
+                        # GET_AJ_SAZONALIDADE_KG
+                        aj_saz_kg_separate = aj_sazonalidade_separate
+                        aj_saz_kg_f = aj_saz_kg_separate[2]
+                        
+                        # GET_AJ_SAZONALIDADE_R$
+                        aj_saz_real_separate = aj_sazonalidade_separate
+                        aj_saz_real_f = aj_saz_real_separate[-1]
+                        
+                        if " " in aj_saz_real_f:
+                            aj_saz_real_f = aj_saz_real_f.split(" ")[-1]
+                            
+                        if not aj_saz_kg_f:
+                            aj_saz_kg_f = nan                        
+                        
+                        if not porcetage_aj_saz:
+                            porcetage_aj_saz = aj_sazonalidade_separate[2]
+                            
+                        # GET_AJ_SAZONALIDADE_R$
+                        aj_sazonalidade_real_arr.append(aj_saz_real_f)
+                        
+                        # GET_AJ_SAZONALIDADE_KG
+                        aj_sazonalidade_kg_arr.append(aj_saz_kg_f)
+                        
+                        # GET_AJ_SAZONALIDADE_%
+                        aj_sazonalidade_percent_arr.append(porcetage_aj_saz)
+                
+                # GET_Aj Sexo e Peso
+                if arr_filter[35] == item:
+                    
+                    aj_sex_pes_separate = new_str.split(", ")
+                    aj_sex_pes_separate = remove_empty_spaces(aj_sex_pes_separate)
+                    
+                    n_c_ = len(aj_sex_pes_separate)
+                    
+                    if (n_c_ == 3):
+                        # GET_Aj Sexo e Peso_%
+                        aj_sex_pes_f = aj_sex_pes_separate[1].replace("Aj Sexo e Peso ", "").replace("Aj Sexo e Peso", "")
+                        if not aj_sex_pes_f:
+                            aj_sex_pes_f = aj_sex_pes_separate[-1].split(" ")[0]
+                        # GET_Aj Sexo e Peso_kg
+                        # GET_Aj Sexo e Peso_$
+                        pass
+                    if (n_c_ == 4):
+                        # GET_Aj Sexo e Peso_%
+                        # GET_Aj Sexo e Peso_kg
+                        # GET_Aj Sexo e Peso_$
+                        # print(aj_sex_pes_separate)
+                        pass
+                    pass
+                
+                # GET_Aj Genética
+                if arr_filter[36] == item:
+                    aj_gene_separate = new_str.split(", ")
+                    # print(aj_gene_separate)
+                    pass
     
-    # aj_kg_arr = []
-    # aj_real_arr = []
+    # aj_sex_pes_percent_arr = []
+    # aj_sex_pes_kg_arr = []
+    # aj_sex_pes_real_arr = []
     
     # A partir doGET_percentual_basico pega Get_Kg_carne e pega $R_Base
     for eval_ in mod_2:
@@ -552,7 +681,7 @@ def separate_():
             
     # for value in aj_porcent_arr:
         # print(value)
-    print(len(aj_kg_arr))                
+    print(len(aj_sazonalidade_real_arr))                
     # print(len(valor_kg_f_arr))
     print(len(arr_filter))
     # #grava os dados para a nova tabela
@@ -594,25 +723,17 @@ def separate_():
     new_dataFrame["PERCENTUAL_BASICO"] = percentual_basico_arr
     new_dataFrame["KG_CARNE_BASE"] = carne_base_arr
     new_dataFrame["R$_BASE"] = real_base_arr
+    
+    new_dataFrame['%_AJ_ESCALA_PROD'] = aj_porcent_arr
+    new_dataFrame['KG_AJ_ESCALA_PROD'] = aj_kg_arr
+    new_dataFrame["R$_AJ_ESCALA_PROD"] = aj_real_arr
+    
+    new_dataFrame["%_SAZONALIDADE"] = aj_sazonalidade_percent_arr    
+    new_dataFrame["KG_SAZONALIDADE"] = aj_sazonalidade_kg_arr
+    new_dataFrame["R$_SAZONALIDADE"] = aj_sazonalidade_real_arr
+    
     # new_dataFrame["LOTE"] = arr_pedido
     
-    
-    
-    
-    
-    # print(len(key_arr))
-    # print(len(clifor_arr))
-    # print(len(name_arr))
-    # print(len(arr_pedido))
-    # print(len(arr_pedido))
-    # print(arr_pedido)
-    # print(len(arr_municipio))
-    # print(len(arr_data_aloj))
-    # print(len(arr_linhagem))
-    # print(len(arr_quant_alojado))
-    # print(len(arr_peso_medio))
-    # print(len(arr_area_aloj))
-    # print(len(arr_data_abate))
     new_dataFrame.to_csv("ArquivosCSV/filter_tabela.csv", mode="w", index=False)
 
     print("Filtragem Completa")
