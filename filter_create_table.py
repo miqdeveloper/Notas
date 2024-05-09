@@ -1,3 +1,4 @@
+from hmac import new
 from math import nan
 import pandas as pd
 from tqdm import tqdm
@@ -40,7 +41,7 @@ arr_filter = ["Integrado",
               "Aj Escala Produção",
               "Aj Sazonalidade",
               "Aj Sexo e Peso",
-              "Aj Genética"
+              "Aj Idade"
             ]
 
 file_execel = 'TABELA_1.csv'
@@ -145,6 +146,11 @@ def separate_():
     aj_sex_pes_percent_arr = []
     aj_sex_pes_kg_arr = []
     aj_sex_pes_real_arr = []
+    
+        
+    aj_idade_percent_arr = []
+    aj_idade_kg_arr = []
+    aj_idade_real_arr = []
     
     mod = []
     mod_2 = []
@@ -633,29 +639,134 @@ def separate_():
                     n_c_ = len(aj_sex_pes_separate)
                     
                     if (n_c_ == 3):
-                        # GET_Aj Sexo e Peso_%
+                        
+                        # GET_Aj Sexo e Peso_%                        
                         aj_sex_pes_f = aj_sex_pes_separate[1].replace("Aj Sexo e Peso ", "").replace("Aj Sexo e Peso", "")
                         if not aj_sex_pes_f:
                             aj_sex_pes_f = aj_sex_pes_separate[-1].split(" ")[0]
+                            
+                        aj_sex_pes_percent_arr.append(aj_sex_pes_f)
+                        
                         # GET_Aj Sexo e Peso_kg
+                        aj_sex_pes_kg_separate = aj_sex_pes_separate[-1]
+                        
+                        if " " in  aj_sex_pes_kg_separate:
+                            
+                            if len(aj_sex_pes_kg_separate.split(" ")) == 2:
+                                aj_sex_pes_kg_f = aj_sex_pes_kg_separate.split(" ")[0]
+
+                            if len(aj_sex_pes_kg_separate.split(" ")) == 3:
+                                aj_sex_pes_kg_f = (aj_sex_pes_kg_separate.split(" ")[1])
+                                
+                        aj_sex_pes_kg_arr.append(aj_sex_pes_kg_f)
+                        
+                        
                         # GET_Aj Sexo e Peso_$
-                        pass
+                        aj_sex_pes_real_separate = aj_sex_pes_separate[-1]
+                
+                        if " " in  aj_sex_pes_real_separate:
+                            
+                            if len(aj_sex_pes_real_separate.split(" ")) == 2:
+                                aj_sex_pes_real_f = aj_sex_pes_real_separate.split(" ")[1]
+                                
+                                # print(aj_sex_pes_real_f)
+
+                            if len(aj_sex_pes_real_separate.split(" ")) == 3:
+                                aj_sex_pes_real_f = (aj_sex_pes_kg_separate.split(" ")[-1])
+                            
+                        aj_sex_pes_real_arr.append(aj_sex_pes_real_f)
+                                                    
                     if (n_c_ == 4):
+                        
                         # GET_Aj Sexo e Peso_%
+                        aj_sex_pes_f = aj_sex_pes_separate[2]                                                    
+                        aj_sex_pes_percent_arr.append(aj_sex_pes_f)
+                        
                         # GET_Aj Sexo e Peso_kg
+                        aj_sex_pes_kg_f =  aj_sex_pes_separate[2]
+                        aj_sex_pes_kg_arr.append(aj_sex_pes_kg_f)
+                        
                         # GET_Aj Sexo e Peso_$
+                        aj_sex_pes_real_f =  aj_sex_pes_separate[3]
+                        # print(aj_sex_pes_real_f)                        
+                        aj_sex_pes_real_arr.append(aj_sex_pes_real_f)
+
+                        
+                    if n_c_ == 5:
+                        
+                        # GET_Aj Sexo e Peso_%
+                        aj_sex_pes_f = aj_sex_pes_separate[2]
+                        aj_sex_pes_percent_arr.append(aj_sex_pes_f)
+                        
+                        # GET_Aj Sexo e Peso_kg
+                        aj_sex_pes_kg_f = aj_sex_pes_separate[3]  
+                        aj_sex_pes_kg_arr.append(aj_sex_pes_kg_f)
+                        
+                        # GET_Aj Sexo e Peso_$
+                        aj_sex_pes_real_f =  aj_sex_pes_separate[4]
+                        aj_sex_pes_real_arr.append(aj_sex_pes_real_f)
                         # print(aj_sex_pes_separate)
-                        pass
+                        
                     pass
                 
-                # GET_Aj Genética
+
                 if arr_filter[36] == item:
-                    aj_gene_separate = new_str.split(", ")
+                
+                    aj_idade_separate = new_str.split(", ")
+                    aj_idade_separate = remove_empty_spaces(aj_idade_separate)
+
+                    n_c_ = len(aj_idade_separate)
+                    
+                    if n_c_ == 3:
+                        
+                        # GET_Aj Idade_%
+                        aj_idade_percent_f = aj_idade_separate[1].replace("Aj Idade ", "").replace("Aj Idade", "")
+                        if not aj_idade_percent_f:
+                            aj_idade_percent_f = aj_idade_separate[-1].split(" ")[0]                        
+                        aj_idade_percent_arr.append(aj_idade_percent_f)
+                        
+                        # GET_Aj Idade_Kg
+                        aj_idade_kg_f = aj_idade_separate[-1].split(" ")
+                        
+                        if len(aj_idade_kg_f) == 2:
+                            aj_idade_kg_f = aj_idade_kg_f[0]
+
+                        if len(aj_idade_kg_f) == 3:                             
+                            aj_idade_kg_f = aj_idade_kg_f[1]
+                            
+                        aj_idade_kg_arr.append(aj_idade_kg_f)
+                        
+                        pass
+                    
+                    if n_c_ == 4:
+                        
+                        # GET_Aj Idade_%
+                        aj_idade_percent_f = aj_idade_separate[1].replace("Aj Idade ", "").replace("Aj Idade", "")
+                        aj_idade_percent_arr.append(aj_idade_percent_f)
+                        
+                        # GET_Aj Idade_Kg
+                        aj_idade_kg_f = aj_idade_separate
+                        aj_idade_kg_f = aj_idade_kg_f[2]
+                        aj_idade_kg_arr.append(aj_idade_kg_f)
+                        pass
+                    
+                    if n_c_ == 5:
+                        
+                        # GET_Aj Idade_%
+                        aj_idade_percent_f = (aj_idade_separate[2])
+                        aj_idade_percent_arr.append(aj_idade_percent_f)
+                        
+                        # GET_Aj Idade_Kg
+                        aj_idade_kg_f = aj_idade_separate
+                        aj_idade_kg_f= aj_idade_kg_f[3]
+                        aj_idade_kg_arr.append(aj_idade_percent_f)
+                        pass
+                    # aj_idade_percent_arr.append(aj_idade_separate)
                     # print(aj_gene_separate)
                     pass
     
-    # aj_sex_pes_percent_arr = []
-    # aj_sex_pes_kg_arr = []
+    # aj_idade_percent_arr = []
+    # aj_idade_kg_arr = []
     # aj_sex_pes_real_arr = []
     
     # A partir doGET_percentual_basico pega Get_Kg_carne e pega $R_Base
@@ -681,7 +792,7 @@ def separate_():
             
     # for value in aj_porcent_arr:
         # print(value)
-    print(len(aj_sazonalidade_real_arr))                
+    print(len(aj_idade_kg_arr))                
     # print(len(valor_kg_f_arr))
     print(len(arr_filter))
     # #grava os dados para a nova tabela
@@ -732,6 +843,15 @@ def separate_():
     new_dataFrame["KG_SAZONALIDADE"] = aj_sazonalidade_kg_arr
     new_dataFrame["R$_SAZONALIDADE"] = aj_sazonalidade_real_arr
     
+    new_dataFrame["%_AJ_SEXO_PESO"] = aj_sex_pes_percent_arr
+    new_dataFrame["KG_AJ_SEXO_PESO"] = aj_sex_pes_kg_arr
+    new_dataFrame["R$_AJ_SEXO_PESO"] = aj_sex_pes_real_arr
+    
+    new_dataFrame["%_AJ_IDADE"] = aj_idade_percent_arr
+    new_dataFrame["KG_AJ_IDADE"] = aj_idade_kg_arr 
+    # new_dataFrame["R$_AJ_IDADE"] =  aj_idade_real_arr
+# 
+# 
     # new_dataFrame["LOTE"] = arr_pedido
     
     new_dataFrame.to_csv("ArquivosCSV/filter_tabela.csv", mode="w", index=False)
