@@ -41,7 +41,9 @@ arr_filter = ["Integrado",
               "Aj Escala Produção",
               "Aj Sazonalidade",
               "Aj Sexo e Peso",
-              "Aj Idade"
+              "Aj Idade",
+              "Aj Mortalidade",
+              "Aj Conv Alimentar"
             ]
 
 file_execel = 'TABELA_1.csv'
@@ -151,6 +153,14 @@ def separate_():
     aj_idade_percent_arr = []
     aj_idade_kg_arr = []
     aj_idade_real_arr = []
+    
+    aj_mortalidade_percent_arr = []
+    aj_mortalidade_kg_arr = []
+    aj_mortalidade_real_arr = []
+    
+    aj_conv_alimentar_percent_arr = []
+    aj_conv_alimentar_kg_arr = []
+    aj_conv_alimentar_real_arr = []
     
     mod = []
     mod_2 = []
@@ -721,6 +731,7 @@ def separate_():
                         
                         # GET_Aj Idade_%
                         aj_idade_percent_f = aj_idade_separate[1].replace("Aj Idade ", "").replace("Aj Idade", "")
+                        
                         if not aj_idade_percent_f:
                             aj_idade_percent_f = aj_idade_separate[-1].split(" ")[0]                        
                         aj_idade_percent_arr.append(aj_idade_percent_f)
@@ -730,13 +741,25 @@ def separate_():
                         
                         if len(aj_idade_kg_f) == 2:
                             aj_idade_kg_f = aj_idade_kg_f[0]
+                            aj_idade_real_f = aj_idade_separate[-1].split(" ")[-1]
 
-                        if len(aj_idade_kg_f) == 3:                             
+                        if len(aj_idade_kg_f) == 3:
                             aj_idade_kg_f = aj_idade_kg_f[1]
                             
                         aj_idade_kg_arr.append(aj_idade_kg_f)
                         
-                        pass
+                        # GET_Aj Idade_$                        
+                        aj_idade_real_separate = aj_idade_separate[-1]
+                        n_c_ = len(aj_idade_real_separate.split(" "))
+
+                        if n_c_  == 2:
+                            aj_idade_real_f = aj_idade_real_separate.split(" ")[1]
+                            pass
+                        if n_c_  == 3:
+                            aj_idade_real_f = aj_idade_real_separate.split(" ")[-1]
+                            pass
+                        aj_idade_real_arr.append(aj_idade_real_f)
+                        
                     
                     if n_c_ == 4:
                         
@@ -748,6 +771,12 @@ def separate_():
                         aj_idade_kg_f = aj_idade_separate
                         aj_idade_kg_f = aj_idade_kg_f[2]
                         aj_idade_kg_arr.append(aj_idade_kg_f)
+                        
+                        # GET_Aj Idade_$
+                        aj_idade_real_f = aj_idade_separate[2]
+                        aj_idade_real_arr.append(aj_idade_real_f)
+                        # print(aj_idade_real_f)
+                        
                         pass
                     
                     if n_c_ == 5:
@@ -760,14 +789,140 @@ def separate_():
                         aj_idade_kg_f = aj_idade_separate
                         aj_idade_kg_f= aj_idade_kg_f[3]
                         aj_idade_kg_arr.append(aj_idade_percent_f)
+                        
+                        # GET_Aj Idade_$
+                        aj_idade_real_f = aj_idade_separate[-1]
+                        aj_idade_real_arr.append(aj_idade_real_f)
+                
+                # GET_Aj_Mortalidade
+                
+                if arr_filter[37] == item:
+                    aj_mortalidade_separate = new_str.split(", ")
+                    aj_mortalidade_separate = remove_empty_spaces(aj_mortalidade_separate)
+                    
+                    n_c_ = len(aj_mortalidade_separate)
+                    # print(n_c_)
+                    
+                    if n_c_ == 3:
+                        
+                        # Aj_Mortalidade_%
+                        aj_mortalidade_f = aj_mortalidade_separate[1].replace("Aj Mortalidade ", "").replace("Aj Mortalidade", "")
+                        
+                        if not aj_mortalidade_f:
+                            aj_mortalidade_f = aj_mortalidade_separate[2].split(" ")[0]
+                        
+                        aj_mortalidade_percent_arr.append(aj_mortalidade_f)
+                        
+                        # Aj_Mortalidade_kg
+                        aj_mortalidade_kg_f = aj_mortalidade_separate[-1].split(" ")
+                        
+                        n_c_ = len(aj_mortalidade_kg_f)
+                        
+                        if n_c_ == 2:
+                            aj_mortalidade_kg_f = aj_mortalidade_kg_f[0]
+                        if n_c_ == 3:
+                            aj_mortalidade_kg_f = aj_mortalidade_kg_f[1]
+                        
+                        aj_mortalidade_kg_arr.append(aj_mortalidade_kg_f)
+                        
+                        # Aj_Mortalidade_real
+                        aj_mortalidade_real_f = aj_mortalidade_separate[-1].split(" ")[-1]                        
+                        aj_mortalidade_real_arr.append(aj_mortalidade_real_f)
+
+                    if n_c_ == 4:
+                        # Aj_Mortalidade_%
+                        aj_mortalidade_f = aj_mortalidade_separate[1].replace("Aj Mortalidade ", "").replace("Aj Mortalidade", "")
+                        aj_mortalidade_percent_arr.append(aj_mortalidade_f)
+                        
+                         # Aj_Mortalidade_kg
+                        aj_mortalidade_kg_f = aj_mortalidade_separate[2]
+                        aj_mortalidade_kg_arr.append(aj_mortalidade_kg_f)
+                        
+                        # Aj_Mortalidade_real
+                        aj_mortalidade_real_f = aj_mortalidade_separate[-1]
+                        aj_mortalidade_real_arr.append(aj_mortalidade_real_f)
+
+                        
+                    if n_c_ == 5:
+                        # Aj_Mortalidade_%
+                        aj_mortalidade_f = aj_mortalidade_separate[2]
+                        aj_mortalidade_percent_arr.append(aj_mortalidade_f)
+                        
+                        # Aj_Mortalidade_kg
+                        aj_mortalidade_kg_f = aj_mortalidade_separate[3]
+                        aj_mortalidade_kg_arr.append(aj_mortalidade_kg_f)
+                        
+                        # Aj_Mortalidade_real
+                        aj_mortalidade_real_f = aj_mortalidade_separate[-1]
+                        aj_mortalidade_real_arr.append(aj_mortalidade_real_f)
+                
+                
+                if arr_filter[38] == item:
+                    
+                    # GET_Aj_Conv_Alimentar
+                    aj_conv_alimentar_separate = remove_empty_spaces(new_str.split(", "))
+                    n_c_ = len(aj_conv_alimentar_separate)
+                    
+                    
+                    if n_c_ == 3:
+                        
+                        # GET_Aj_Conv_Alimentar_%                        
+                        aj_conv_alimentar_f = aj_conv_alimentar_separate[1].replace("Aj Conv Alimentar", "").replace("Aj Conv Alimentar ", "")
+                        
+                        if not aj_conv_alimentar_f:
+                            aj_conv_alimentar_f = aj_conv_alimentar_separate[-1].split(" ")[0]
+                        
+                        aj_conv_alimentar_percent_arr.append(aj_conv_alimentar_f)
+                        
+                        # GET_Aj_Conv_Alimentar_KG                        
+                        aj_conv_alimentar_kg_f = aj_conv_alimentar_separate[-1].split(" ")
+                        n_c_ = len(aj_conv_alimentar_kg_f)
+                        
+                        if n_c_ == 2:
+                            aj_conv_alimentar_kg_f = aj_conv_alimentar_kg_f[0]                            
+                        if n_c_ == 3:
+                            aj_conv_alimentar_kg_f = aj_conv_alimentar_kg_f[1]
+                            
+                        aj_conv_alimentar_kg_arr.append(aj_conv_alimentar_kg_f)
+
+                        # GET_Aj_Conv_Alimentar_$
+                        aj_conv_alimentar_real_f = aj_conv_alimentar_separate[-1].split(" ")[-1]
+                        aj_conv_alimentar_real_arr.append(aj_conv_alimentar_real_f)
+
+                    if n_c_ == 4:
+                        # GET_Aj_Conv_Alimentar_%
+                        aj_conv_alimentar_f = aj_conv_alimentar_separate[1].replace("Aj Conv Alimentar", "").replace("Aj Conv Alimentar ", "")
+                        aj_conv_alimentar_percent_arr.append(aj_conv_alimentar_f)
+                        
+                        # GET_Aj_Conv_Alimentar_KG
+                        aj_conv_alimentar_kg_f = aj_conv_alimentar_separate[2]
+                        aj_conv_alimentar_kg_arr.append(aj_conv_alimentar_kg_f)
+                        
+                        # GET_Aj_Conv_Alimentar_$
+                        aj_conv_alimentar_real_f = aj_conv_alimentar_separate[-1]
+                        aj_conv_alimentar_real_arr.append(aj_conv_alimentar_real_f)
+                        
                         pass
-                    # aj_idade_percent_arr.append(aj_idade_separate)
-                    # print(aj_gene_separate)
+                    
+                    if n_c_ == 5:
+                         # GET_Aj_Conv_Alimentar_%
+                        aj_conv_alimentar_f = aj_conv_alimentar_separate[2]                       
+                        aj_conv_alimentar_percent_arr.append(aj_conv_alimentar_f)
+                        
+                        # GET_Aj_Conv_Alimentar_KG
+                        aj_conv_alimentar_kg_f = aj_conv_alimentar_separate[3]                        
+                        aj_conv_alimentar_kg_arr.append(aj_conv_alimentar_kg_f)
+                        
+                        # GET_Aj_Conv_Alimentar_$
+                        aj_conv_alimentar_real_f = aj_conv_alimentar_separate[-1]
+                        aj_conv_alimentar_real_arr.append(aj_conv_alimentar_real_f)
+                        pass
                     pass
-    
-    # aj_idade_percent_arr = []
-    # aj_idade_kg_arr = []
-    # aj_sex_pes_real_arr = []
+                        
+                
+    # aj_conv_alimentar_percent_arr = []
+    # aj_conv_alimentar_kg_arr = []
+    # aj_conv_alimentar_real_arr = []
     
     # A partir doGET_percentual_basico pega Get_Kg_carne e pega $R_Base
     for eval_ in mod_2:
@@ -792,7 +947,7 @@ def separate_():
             
     # for value in aj_porcent_arr:
         # print(value)
-    print(len(aj_idade_kg_arr))                
+    print(len(aj_conv_alimentar_real_arr))                
     # print(len(valor_kg_f_arr))
     print(len(arr_filter))
     # #grava os dados para a nova tabela
@@ -849,11 +1004,17 @@ def separate_():
     
     new_dataFrame["%_AJ_IDADE"] = aj_idade_percent_arr
     new_dataFrame["KG_AJ_IDADE"] = aj_idade_kg_arr 
-    # new_dataFrame["R$_AJ_IDADE"] =  aj_idade_real_arr
-# 
-# 
-    # new_dataFrame["LOTE"] = arr_pedido
+    new_dataFrame["R$_AJ_IDADE"] =  aj_idade_real_arr
     
+    new_dataFrame["%_AJ_MORTALIDADE"] =  aj_mortalidade_percent_arr
+    new_dataFrame["KG_AJ_MORTALIDADE"] =  aj_mortalidade_kg_arr
+    new_dataFrame["R$_AJ_MORTALIDADE"] =  aj_mortalidade_real_arr
+
+    new_dataFrame["%_CONV_ALIMENTAR"] =  aj_conv_alimentar_percent_arr
+    new_dataFrame["KG_CONV_ALIMENTAR"] =  aj_conv_alimentar_kg_arr
+    new_dataFrame["R$_CONV_ALIMENTAR"] =  aj_conv_alimentar_real_arr
+    # new_dataFrame["LOTE"] = arr_pedido
+
     new_dataFrame.to_csv("ArquivosCSV/filter_tabela.csv", mode="w", index=False)
 
     print("Filtragem Completa")
