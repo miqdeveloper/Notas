@@ -1,5 +1,7 @@
 from hmac import new
 from math import nan
+from tkinter import W
+from traceback import print_tb
 import pandas as pd
 from tqdm import tqdm
 import re
@@ -43,7 +45,9 @@ arr_filter = ["Integrado",
               "Aj Sexo e Peso",
               "Aj Idade",
               "Aj Mortalidade",
-              "Aj Conv Alimentar"
+              "Aj Conv Alimentar",
+              "Aj Meritocracia",
+              "Aj Calo Pata A"
             ]
 
 file_execel = 'TABELA_1.csv'
@@ -161,6 +165,14 @@ def separate_():
     aj_conv_alimentar_percent_arr = []
     aj_conv_alimentar_kg_arr = []
     aj_conv_alimentar_real_arr = []
+    
+    aj_meritocracia_mt_percent_arr = []
+    aj_meritocracia_mt_kg_arr = []
+    aj_meritocracia_mt_real_arr = []
+    
+    aj_calo_pata_a_percent_arr = []
+    aj_calo_pata_a_kg_arr = []
+    aj_calo_pata_a_real_arr = []
     
     mod = []
     mod_2 = []
@@ -856,9 +868,8 @@ def separate_():
                         aj_mortalidade_real_f = aj_mortalidade_separate[-1]
                         aj_mortalidade_real_arr.append(aj_mortalidade_real_f)
                 
-                
+                # GET_Aj_Conv_Alimentar
                 if arr_filter[38] == item:
-                    
                     # GET_Aj_Conv_Alimentar
                     aj_conv_alimentar_separate = remove_empty_spaces(new_str.split(", "))
                     n_c_ = len(aj_conv_alimentar_separate)
@@ -901,8 +912,6 @@ def separate_():
                         # GET_Aj_Conv_Alimentar_$
                         aj_conv_alimentar_real_f = aj_conv_alimentar_separate[-1]
                         aj_conv_alimentar_real_arr.append(aj_conv_alimentar_real_f)
-                        
-                        pass
                     
                     if n_c_ == 5:
                          # GET_Aj_Conv_Alimentar_%
@@ -916,21 +925,109 @@ def separate_():
                         # GET_Aj_Conv_Alimentar_$
                         aj_conv_alimentar_real_f = aj_conv_alimentar_separate[-1]
                         aj_conv_alimentar_real_arr.append(aj_conv_alimentar_real_f)
-                        pass
-                    pass
+                
+                # GET_Aj Meritocracia (MT)
+                if arr_filter[39] == item:
+                    aj_meritocracia_mt_separate = new_str.split(", ")
+
+                    # Extract the percentage value (%_Aj_Meritocracia_MT)
+                    aj_meritocracia_mt_separate = remove_empty_spaces(aj_meritocracia_mt_separate)
+                    n_c_ = len(aj_meritocracia_mt_separate)
+                    
+                    if n_c_ == 3:
+                        
+                        # GET_Aj Meritocracia_%
+                        aj_meritocracia_mt_percent = aj_meritocracia_mt_separate[-1].split(" ")[0]
+                        aj_meritocracia_mt_percent_arr.append(aj_meritocracia_mt_percent)
+                        
+                        # GET_Aj Meritocracia_kg
+                        aj_meritocracia_mt_kg = aj_meritocracia_mt_separate[-1].split(" ")[1]
+                        aj_meritocracia_mt_kg_arr.append(aj_meritocracia_mt_kg)
+                        
+                        aj_meritocracia_mt_real = aj_meritocracia_mt_separate[-1].split(" ")[2]
+                        aj_meritocracia_mt_real_arr.append(aj_meritocracia_mt_real)
+                        
+                    if n_c_ == 4:
+                        aj_meritocracia_mt_percent = aj_meritocracia_mt_separate[1].replace("Aj Meritocracia (MT) ", "").replace("Aj Meritocracia (MT)", "")
+                        aj_meritocracia_mt_percent_arr.append(aj_meritocracia_mt_percent)
+                        
+                        # GET_Aj Meritocracia_kg
+                        aj_meritocracia_mt_kg = aj_meritocracia_mt_separate[2]
+                        aj_meritocracia_mt_kg_arr.append(aj_meritocracia_mt_kg)
+
+                        aj_meritocracia_mt_real = aj_meritocracia_mt_separate[-1]
+                        aj_meritocracia_mt_real_arr.append(aj_meritocracia_mt_real)
+                        
+                    if n_c_ == 5:
+                        aj_meritocracia_mt_percent = aj_meritocracia_mt_separate[2]
+                        aj_meritocracia_mt_percent_arr.append(aj_meritocracia_mt_percent)
+                        
+                        aj_meritocracia_mt_kg = aj_meritocracia_mt_separate[3]
+                        aj_meritocracia_mt_kg_arr.append(aj_meritocracia_mt_kg)
+                        
+                        aj_meritocracia_mt_real = aj_meritocracia_mt_separate[-1]                        
+                        aj_meritocracia_mt_real_arr.append(aj_meritocracia_mt_real)
                         
                 
-    # aj_conv_alimentar_percent_arr = []
-    # aj_conv_alimentar_kg_arr = []
-    # aj_conv_alimentar_real_arr = []
-    
+                # GET_Aj Calo Pata A
+                if arr_filter[40] == item:
+                    aj_calo_pata_separate = remove_empty_spaces(new_str.split(", "))
+                    n_c_ = len(aj_calo_pata_separate)
+                    
+                    if n_c_ == 3:
+                        # GET_Aj Calo Pata A_%
+                        aj_calo_pata_percent = aj_calo_pata_separate[1].replace("Aj Calo Pata A ", "").replace("Aj Calo Pata A", "")
+                        if not aj_calo_pata_percent:
+                            aj_calo_pata_percent = aj_calo_pata_separate[-1].split(" ")[0]
+                        
+                        aj_calo_pata_a_percent_arr.append(aj_calo_pata_percent)
+                        
+                        
+                        # GET_Aj Calo Pata A_KG
+                        aj_calo_pata_kg = aj_calo_pata_separate[-1].split(" ")
+                        if len(aj_calo_pata_kg) == 2:
+                            aj_calo_pata_kg_f =  aj_calo_pata_kg[0]
+
+                        if len(aj_calo_pata_kg) == 3:
+                            aj_calo_pata_kg_f =  aj_calo_pata_kg[1]
+                            
+                        aj_calo_pata_a_kg_arr.append(aj_calo_pata_kg_f)
+                        
+                        # GET_Aj Calo Pata A_$
+                        aj_calo_pata_real_f = aj_calo_pata_separate[-1].split(" ")[-1]
+                        aj_calo_pata_a_real_arr.append(aj_calo_pata_real_f)
+                      
+                    if n_c_ == 4:
+                        aj_calo_pata_percent = aj_calo_pata_separate[1].replace("Aj Calo Pata A ", "").replace("Aj Calo Pata A", "")
+                        aj_calo_pata_a_percent_arr.append(aj_calo_pata_percent)
+                        
+                        aj_calo_pata_kg_f = aj_calo_pata_separate[2]
+                        aj_calo_pata_a_kg_arr.append(aj_calo_pata_kg_f)
+                        
+                        aj_calo_pata_real_f = aj_calo_pata_separate[-1]
+                        aj_calo_pata_a_real_arr.append(aj_calo_pata_real_f)
+                        pass
+                    if n_c_ == 5:
+                        aj_calo_pata_percent = aj_calo_pata_separate[2]
+                        aj_calo_pata_a_percent_arr.append(aj_calo_pata_percent)
+                        
+                        aj_calo_pata_kg_f = aj_calo_pata_separate[3]
+                        aj_calo_pata_a_kg_arr.append(aj_calo_pata_kg_f)
+
+                        aj_calo_pata_real_f = aj_calo_pata_separate[-1]
+                        aj_calo_pata_a_real_arr.append(aj_calo_pata_real_f)
+                        pass
+                    
+                    pass        
+                
+                if arr_filter[41] == item:
+                    pass
     # A partir doGET_percentual_basico pega Get_Kg_carne e pega $R_Base
     for eval_ in mod_2:
-        if len(eval_) == 3:            
+        if len(eval_) == 3:
             carne_final = eval_[2].split(" ")[1]
             real_base = eval_[2].split(" ")[-1]
             real_base_arr.append(real_base)
-            
             # print(real_base)
             
             carne_base_arr.append(carne_final)
@@ -947,7 +1044,7 @@ def separate_():
             
     # for value in aj_porcent_arr:
         # print(value)
-    print(len(aj_conv_alimentar_real_arr))                
+    print(len(aj_calo_pata_a_real_arr))                
     # print(len(valor_kg_f_arr))
     print(len(arr_filter))
     # #grava os dados para a nova tabela
@@ -1013,7 +1110,29 @@ def separate_():
     new_dataFrame["%_CONV_ALIMENTAR"] =  aj_conv_alimentar_percent_arr
     new_dataFrame["KG_CONV_ALIMENTAR"] =  aj_conv_alimentar_kg_arr
     new_dataFrame["R$_CONV_ALIMENTAR"] =  aj_conv_alimentar_real_arr
+    
     # new_dataFrame["LOTE"] = arr_pedido
+
+    new_dataFrame["%_AJ_MERITOCRACIA_MT"] = aj_meritocracia_mt_percent_arr
+    new_dataFrame["KG_AJ_MERITOCRACIA_MT"] = aj_meritocracia_mt_kg_arr
+    new_dataFrame["R$_AJ_MERITOCRACIA_MT"] = aj_meritocracia_mt_real_arr
+
+    new_dataFrame["%_AJ_CALO_PATA_A"] = aj_calo_pata_a_percent_arr
+    new_dataFrame["KG_AJ_CALO_PATA_A"] = aj_calo_pata_a_kg_arr
+    new_dataFrame["R$_AJ_CALO_PATA_A"] = aj_calo_pata_a_rs_arr
+
+    # new_dataFrame["%_CONDENACOES"] = condenacoes_percent_arr
+    # new_dataFrame["KG_CONDENACOES"] = condenacoes_kg_arr
+    # new_dataFrame["R$_CONDENACOES"] = condenacoes_rs_arr
+
+    # new_dataFrame["%_AJ_QUALIDADE_QT"] = aj_qualidade_qt_percent_arr
+    # new_dataFrame["KG_AJ_QUALIDADE_QT"] = aj_qualidade_qt_kg_arr
+    # new_dataFrame["R$_AJ_QUALIDADE_QT"] = aj_qualidade_qt_rs_arr
+
+    # new_dataFrame["%_AJ_ESTRUTURAL"] = aj_estrutural_percent_arr
+    # new_dataFrame["KG_AJ_ESTRUTURAL"] = aj_estrutural_kg_arr
+    # new_dataFrame["R$_AJ_ESTRUTURAL"] = aj_estrutural_rs_arr
+
 
     new_dataFrame.to_csv("ArquivosCSV/filter_tabela.csv", mode="w", index=False)
 
