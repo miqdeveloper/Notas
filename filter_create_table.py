@@ -178,6 +178,8 @@ def separate_():
     
     condenacoes_percent_arr = []
     condenacoes_kg_arr = []
+    codenacoes_real_arr = []
+    
     mod = []
     mod_2 = []
     
@@ -1033,10 +1035,8 @@ def separate_():
                     if  n_c_ == 3:
                         # GET_ AJ_CONDENACOES_%
                         aj_condenacoes_percent_f = aj_condenacoes_separate[1].replace("Aj Condenações ","").replace("Aj Condenações","")
-                        
                         if not aj_condenacoes_percent_f:
-                            aj_condenacoes_percent_f  = aj_condenacoes_separate[-1].split(" ")[0]
-                        
+                            aj_condenacoes_percent_f  = aj_condenacoes_separate[-1].split(" ")[0]                        
                         condenacoes_percent_arr.append(aj_condenacoes_percent_f)
                         
                         # GET_ AJ_CONDENACOES_KG
@@ -1047,10 +1047,17 @@ def separate_():
                             
                         if len(aj_condenacoes_kg_separate) == 3:
                             aj_condenacoes_kg_f = aj_condenacoes_kg_separate[1]
-                        
                         condenacoes_kg_arr.append(aj_condenacoes_kg_f)
+
+                        # GET_ AJ_CONDENACOES_$
+                        aj_condenacoes_real_separate = aj_condenacoes_separate[-1].split(" ")
+                        if len(aj_condenacoes_real_separate) == 2:
+                            aj_condenacoes_real_f = aj_condenacoes_real_separate[-1]
+                        if len(aj_condenacoes_real_separate) == 3:
+                            aj_condenacoes_real_f = aj_condenacoes_real_separate[-1]
                         
-                        
+                        codenacoes_real_arr.append(aj_condenacoes_real_f)
+                                          
                     if  n_c_ == 4:
                         
                         # GET_ AJ_CONDENACOES_%
@@ -1067,7 +1074,15 @@ def separate_():
                             aj_condenacoes_kg_f = aj_condenacoes_kg_f_[0]                            
                         condenacoes_kg_arr.append(aj_condenacoes_kg_f)
                         
-                        pass
+                        # GET_ AJ_CONDENACOES_$
+                        aj_condenacoes_real_separate = aj_condenacoes_separate[-1]
+                        if " " in aj_condenacoes_real_separate:
+                            aj_condenacoes_real_f = aj_condenacoes_separate[-1].split(" ")[-1]
+                        else:
+                            aj_condenacoes_real_f = aj_condenacoes_separate[-1]
+                        
+                        codenacoes_real_arr.append(aj_condenacoes_real_f)
+                        
                     if  n_c_ == 5:
                         
                         # GET_ AJ_CONDENACOES_% 
@@ -1078,8 +1093,10 @@ def separate_():
                         aj_condenacoes_kg_f = aj_condenacoes_separate[3]
                         condenacoes_kg_arr.append(aj_condenacoes_kg_f)
                         
-                        pass
-                    pass
+                        # GET_ AJ_CONDENACOES_$
+                        aj_condenacoes_real_separate = aj_condenacoes_separate[-1]
+                        codenacoes_real_arr.append(aj_condenacoes_real_f)
+                        
     # A partir do GET_percentual_basico pega Get_Kg_carne e pega $R_Base
     for eval_ in mod_2:
         if len(eval_) == 3:
@@ -1102,7 +1119,7 @@ def separate_():
             
     # for value in aj_porcent_arr:
         # print(value)
-    print(len(condenacoes_percent_arr))                
+    print(len(codenacoes_real_arr))                
     # print(len(valor_kg_f_arr))
     print(len(arr_filter))
     # #grava os dados para a nova tabela
@@ -1181,7 +1198,7 @@ def separate_():
 
     new_dataFrame["%_CONDENACOES"] = condenacoes_percent_arr
     new_dataFrame["KG_CONDENACOES"] = condenacoes_kg_arr
-    # new_dataFrame["R$_CONDENACOES"] = condenacoes_rs_arr
+    new_dataFrame["R$_CONDENACOES"] = codenacoes_real_arr
 
     # new_dataFrame["%_AJ_QUALIDADE_QT"] = aj_qualidade_qt_percent_arr
     # new_dataFrame["KG_AJ_QUALIDADE_QT"] = aj_qualidade_qt_kg_arr
