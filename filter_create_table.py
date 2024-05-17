@@ -49,7 +49,8 @@ arr_filter = ["Integrado",
               "Aj Conv Alimentar",
               "Aj Meritocracia",
               "Aj Calo Pata A",
-              "Aj Condenações"
+              "Aj Condenações",
+              "Aj Qualidade",
             ]
 
 file_execel = 'TABELA_1.csv'
@@ -179,6 +180,10 @@ def separate_():
     condenacoes_percent_arr = []
     condenacoes_kg_arr = []
     codenacoes_real_arr = []
+    
+    aj_qualidade_percent_arr = []
+    aj_qualidade_kg_arr = []
+    aj_qualidade_real_arr = []
     
     mod = []
     mod_2 = []
@@ -1096,7 +1101,11 @@ def separate_():
                         # GET_ AJ_CONDENACOES_$
                         aj_condenacoes_real_separate = aj_condenacoes_separate[-1]
                         codenacoes_real_arr.append(aj_condenacoes_real_f)
-                        
+                
+                if arr_filter[42] == item:
+                    print(new_str)
+                    
+                    pass        
     # A partir do GET_percentual_basico pega Get_Kg_carne e pega $R_Base
     for eval_ in mod_2:
         if len(eval_) == 3:
@@ -1200,7 +1209,7 @@ def separate_():
     new_dataFrame["KG_CONDENACOES"] = condenacoes_kg_arr
     new_dataFrame["R$_CONDENACOES"] = codenacoes_real_arr
 
-    # new_dataFrame["%_AJ_QUALIDADE_QT"] = aj_qualidade_qt_percent_arr
+    new_dataFrame["%_AJ_QUALIDADE_QT"] = aj_qualidade_percent_arr
     # new_dataFrame["KG_AJ_QUALIDADE_QT"] = aj_qualidade_qt_kg_arr
     # new_dataFrame["R$_AJ_QUALIDADE_QT"] = aj_qualidade_qt_rs_arr
 
