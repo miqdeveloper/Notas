@@ -1017,6 +1017,9 @@ def separate_():
                         aj_calo_pata_a_kg_arr.append(aj_calo_pata_kg_f)
                         
                         aj_calo_pata_real_f = aj_calo_pata_separate[-1]
+                        if " " in aj_calo_pata_real_f:
+                            aj_calo_pata_real_f = aj_calo_pata_real_f[-1]
+                            
                         aj_calo_pata_a_real_arr.append(aj_calo_pata_real_f)
                         pass
                     if n_c_ == 5:
@@ -1155,7 +1158,6 @@ def separate_():
                         aj_qualidade_real_arr.append(aj_qualidade_real_f)
 
                 # GET_AJ_ESTRUTURAL
-
                 if arr_filter[43] == item:
                     aj_estrutural_separate = remove_empty_spaces(new_str.split(", "))
                     n_c_ = len(aj_estrutural_separate)
