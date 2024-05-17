@@ -1,5 +1,6 @@
 from hmac import new
 from math import nan
+from os import remove
 from tkinter import W
 from traceback import print_tb
 import pandas as pd
@@ -47,7 +48,8 @@ arr_filter = ["Integrado",
               "Aj Mortalidade",
               "Aj Conv Alimentar",
               "Aj Meritocracia",
-              "Aj Calo Pata A"
+              "Aj Calo Pata A",
+              "Aj Condenações"
             ]
 
 file_execel = 'TABELA_1.csv'
@@ -174,6 +176,8 @@ def separate_():
     aj_calo_pata_a_kg_arr = []
     aj_calo_pata_a_real_arr = []
     
+    condenacoes_percent_arr = []
+    condenacoes_kg_arr = []
     mod = []
     mod_2 = []
     
@@ -1020,9 +1024,63 @@ def separate_():
                     
                     pass        
                 
+                # GET_ AJ_CONDENACOES
                 if arr_filter[41] == item:
+                    
+                    aj_condenacoes_separate = remove_empty_spaces(new_str.split(", "))
+                    n_c_ = len(aj_condenacoes_separate)
+                    
+                    if  n_c_ == 3:
+                        # GET_ AJ_CONDENACOES_%
+                        aj_condenacoes_percent_f = aj_condenacoes_separate[1].replace("Aj Condenações ","").replace("Aj Condenações","")
+                        
+                        if not aj_condenacoes_percent_f:
+                            aj_condenacoes_percent_f  = aj_condenacoes_separate[-1].split(" ")[0]
+                        
+                        condenacoes_percent_arr.append(aj_condenacoes_percent_f)
+                        
+                        # GET_ AJ_CONDENACOES_KG
+                        aj_condenacoes_kg_separate = aj_condenacoes_separate[-1].split(" ")
+                        
+                        if len(aj_condenacoes_kg_separate) == 2:
+                            aj_condenacoes_kg_f = aj_condenacoes_kg_separate[0]                            
+                            
+                        if len(aj_condenacoes_kg_separate) == 3:
+                            aj_condenacoes_kg_f = aj_condenacoes_kg_separate[1]
+                        
+                        condenacoes_kg_arr.append(aj_condenacoes_kg_f)
+                        
+                        
+                    if  n_c_ == 4:
+                        
+                        # GET_ AJ_CONDENACOES_%
+                        aj_condenacoes_percent_f = aj_condenacoes_separate[1].replace("Aj Condenações ","").replace("Aj Condenações","")
+                        if not aj_condenacoes_percent_f:
+                            aj_condenacoes_percent_f  = aj_condenacoes_separate[2]                            
+                        condenacoes_percent_arr.append(aj_condenacoes_percent_f)
+                        
+                        # GET_ AJ_CONDENACOES_KG
+                        aj_condenacoes_kg_f_ = aj_condenacoes_separate[-1]                        
+                        if " " not in aj_condenacoes_kg_f_:
+                            aj_condenacoes_kg_f = aj_condenacoes_separate[2]                            
+                        if " " in aj_condenacoes_kg_f_: 
+                            aj_condenacoes_kg_f = aj_condenacoes_kg_f_[0]                            
+                        condenacoes_kg_arr.append(aj_condenacoes_kg_f)
+                        
+                        pass
+                    if  n_c_ == 5:
+                        
+                        # GET_ AJ_CONDENACOES_% 
+                        aj_condenacoes_percent_f = aj_condenacoes_separate[2]
+                        condenacoes_percent_arr.append(aj_condenacoes_percent_f)
+                        
+                        # GET_ AJ_CONDENACOES_KG
+                        aj_condenacoes_kg_f = aj_condenacoes_separate[3]
+                        condenacoes_kg_arr.append(aj_condenacoes_kg_f)
+                        
+                        pass
                     pass
-    # A partir doGET_percentual_basico pega Get_Kg_carne e pega $R_Base
+    # A partir do GET_percentual_basico pega Get_Kg_carne e pega $R_Base
     for eval_ in mod_2:
         if len(eval_) == 3:
             carne_final = eval_[2].split(" ")[1]
@@ -1044,7 +1102,7 @@ def separate_():
             
     # for value in aj_porcent_arr:
         # print(value)
-    print(len(aj_calo_pata_a_real_arr))                
+    print(len(condenacoes_percent_arr))                
     # print(len(valor_kg_f_arr))
     print(len(arr_filter))
     # #grava os dados para a nova tabela
@@ -1119,10 +1177,10 @@ def separate_():
 
     new_dataFrame["%_AJ_CALO_PATA_A"] = aj_calo_pata_a_percent_arr
     new_dataFrame["KG_AJ_CALO_PATA_A"] = aj_calo_pata_a_kg_arr
-    new_dataFrame["R$_AJ_CALO_PATA_A"] = aj_calo_pata_a_rs_arr
+    new_dataFrame["R$_AJ_CALO_PATA_A"] = aj_calo_pata_a_real_arr
 
-    # new_dataFrame["%_CONDENACOES"] = condenacoes_percent_arr
-    # new_dataFrame["KG_CONDENACOES"] = condenacoes_kg_arr
+    new_dataFrame["%_CONDENACOES"] = condenacoes_percent_arr
+    new_dataFrame["KG_CONDENACOES"] = condenacoes_kg_arr
     # new_dataFrame["R$_CONDENACOES"] = condenacoes_rs_arr
 
     # new_dataFrame["%_AJ_QUALIDADE_QT"] = aj_qualidade_qt_percent_arr
