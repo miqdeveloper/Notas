@@ -1,8 +1,4 @@
-from hmac import new
 from math import nan
-from os import remove
-from tkinter import W
-from traceback import print_tb
 import pandas as pd
 from tqdm import tqdm
 import re
@@ -51,6 +47,7 @@ arr_filter = ["Integrado",
               "Aj Calo Pata A",
               "Aj Condenações",
               "Aj Qualidade",
+              "Aj Estrutural"
             ]
 
 file_execel = 'TABELA_1.csv'
@@ -184,6 +181,10 @@ def separate_():
     aj_qualidade_percent_arr = []
     aj_qualidade_kg_arr = []
     aj_qualidade_real_arr = []
+    
+    aj_estrutural_percent_arr = []
+    aj_estrutural_kg_arr = []
+    aj_estrutural_real_arr = []
     
     mod = []
     mod_2 = []
@@ -1102,10 +1103,113 @@ def separate_():
                         aj_condenacoes_real_separate = aj_condenacoes_separate[-1]
                         codenacoes_real_arr.append(aj_condenacoes_real_f)
                 
+                # GET_ Aj Qualidade (QT)
                 if arr_filter[42] == item:
-                    print(new_str)
+                    aj_qualidade_separate = remove_empty_spaces(new_str.split(", "))
+                    n_c_ = len(aj_qualidade_separate)
+                    if n_c_ == 3:
+                        # GET_ Aj Qualidade (QT)_%
+                        aj_qualidade_percent_f = aj_qualidade_separate[-1].split(" ")[0]
+                        aj_qualidade_percent_arr.append(aj_qualidade_percent_f)
+                        
+                        # GET_ Aj Qualidade (QT)_kg
+                        aj_qualidade_kg_f = aj_qualidade_separate[-1].split(" ")[1]
+                        aj_qualidade_kg_arr.append(aj_qualidade_kg_f)
+                        
+                        # GET_ Aj Qualidade (QT)_$
+                        aj_qualidade_real_f = aj_qualidade_separate[-1].split(" ")[-1]
+                        aj_qualidade_real_arr.append(aj_qualidade_real_f)
+                        
+                    if n_c_ == 4:
+                        # GET_ Aj Qualidade (QT)_%
+                        aj_qualidade_percent_f = aj_qualidade_separate[1].replace("Aj Qualidade (QT) ", "").replace("Aj Qualidade (QT)", "")
+                        
+                        if not aj_qualidade_percent_f:
+                            aj_qualidade_percent_f = nan
+                            
+                        aj_qualidade_percent_arr.append(aj_qualidade_percent_f)
+                        
+                        # GET_ Aj Qualidade (QT)_kg
+                        aj_qualidade_kg_f = aj_qualidade_separate[2]                    
+                        aj_qualidade_kg_arr.append(aj_qualidade_kg_f)
+                        
+                        # GET_ Aj Qualidade (QT)_$
+                        aj_qualidade_real_f = aj_qualidade_separate[-1]
+                        
+                        if " " in aj_qualidade_real_f:
+                          aj_qualidade_real_f= aj_qualidade_real_f.split(" ")[-1]
+                          
+                        aj_qualidade_real_arr.append(aj_qualidade_real_f)
+
+                    if n_c_ == 5:
+                        # GET_ Aj Qualidade (QT)_%
+                        aj_qualidade_percent_f = aj_qualidade_separate[2]                        
+                        aj_qualidade_percent_arr.append(aj_qualidade_percent_f)
+                        
+                        # GET_ Aj Qualidade (QT)_kg
+                        aj_qualidade_kg_f = aj_qualidade_separate[3]
+                        aj_qualidade_kg_arr.append(aj_qualidade_kg_f)
+                        
+                        # GET_ Aj Qualidade (QT)_$
+                        aj_qualidade_real_f = aj_qualidade_separate[-1]
+                        aj_qualidade_real_arr.append(aj_qualidade_real_f)
+
+                # GET_AJ_ESTRUTURAL
+
+                if arr_filter[43] == item:
+                    aj_estrutural_separate = remove_empty_spaces(new_str.split(", "))
+                    n_c_ = len(aj_estrutural_separate)
                     
-                    pass        
+                    if n_c_ == 3:
+                        # AJ_ESTRUTURAL_%
+                        aj_estrutural_percent_f = aj_estrutural_separate[1].replace("Aj Estrutural ", "").replace("Aj Estrutural", "")
+                        if not aj_estrutural_percent_f:
+                            aj_estrutural_percent_f = aj_estrutural_separate[-1].split(" ")[0]
+                        
+                        aj_estrutural_percent_arr.append(aj_estrutural_percent_f)
+                        
+                        # AJ_ESTRUTURAL_KG
+                        aj_estrutural_kg_ = aj_estrutural_separate[-1].split(" ")
+                        if len(aj_estrutural_kg_) == 2:
+                            aj_estrutural_kg_f = aj_estrutural_kg_[0]
+                        if len(aj_estrutural_kg_) == 3:
+                            aj_estrutural_kg_f = aj_estrutural_kg_[1]
+                            
+                        aj_estrutural_kg_arr.append(aj_estrutural_kg_f)
+                        
+                        # AJ_ESTRUTURAL_$
+                        aj_estrutural_real_ = aj_estrutural_separate[-1].split(" ")[-1]
+                        aj_estrutural_real_arr.append(aj_estrutural_real_)
+                        
+                        pass
+                    if n_c_ == 4:
+                        # AJ_ESTRUTURAL_%
+                        aj_estrutural_percent_f = aj_estrutural_separate[1].replace("Aj Estrutural ", "").replace("Aj Estrutural", "")
+                        aj_estrutural_percent_arr.append(aj_estrutural_percent_f)
+                                                
+                        # AJ_ESTRUTURAL_KG
+                        aj_estrutural_kg_f = aj_estrutural_separate[2]
+                        aj_estrutural_kg_arr.append(aj_estrutural_kg_f)
+
+                        # AJ_ESTRUTURAL_$
+                        aj_estrutural_real_ = aj_estrutural_separate[-1]
+                        aj_estrutural_real_arr.append(aj_estrutural_real_)
+                        
+                        pass
+                    if n_c_ == 5:
+                        # AJ_ESTRUTURAL_%
+                        aj_estrutural_percent_f = aj_estrutural_separate[2]
+                        aj_estrutural_percent_arr.append(aj_estrutural_percent_f)
+                        
+                        # AJ_ESTRUTURAL_KG
+                        aj_estrutural_kg_ = aj_estrutural_separate[3]
+                        aj_estrutural_kg_arr.append(aj_estrutural_kg_f)
+                        
+                        # AJ_ESTRUTURAL_$
+                        aj_estrutural_real_ = aj_estrutural_separate[-1]
+                        aj_estrutural_real_arr.append(aj_estrutural_real_)
+                        pass
+                
     # A partir do GET_percentual_basico pega Get_Kg_carne e pega $R_Base
     for eval_ in mod_2:
         if len(eval_) == 3:
@@ -1128,7 +1232,7 @@ def separate_():
             
     # for value in aj_porcent_arr:
         # print(value)
-    print(len(codenacoes_real_arr))                
+    print(len(aj_estrutural_real_arr))                
     # print(len(valor_kg_f_arr))
     print(len(arr_filter))
     # #grava os dados para a nova tabela
@@ -1210,12 +1314,12 @@ def separate_():
     new_dataFrame["R$_CONDENACOES"] = codenacoes_real_arr
 
     new_dataFrame["%_AJ_QUALIDADE_QT"] = aj_qualidade_percent_arr
-    # new_dataFrame["KG_AJ_QUALIDADE_QT"] = aj_qualidade_qt_kg_arr
-    # new_dataFrame["R$_AJ_QUALIDADE_QT"] = aj_qualidade_qt_rs_arr
+    new_dataFrame["KG_AJ_QUALIDADE_QT"] = aj_qualidade_kg_arr
+    new_dataFrame["R$_AJ_QUALIDADE_QT"] = aj_qualidade_real_arr
 
-    # new_dataFrame["%_AJ_ESTRUTURAL"] = aj_estrutural_percent_arr
-    # new_dataFrame["KG_AJ_ESTRUTURAL"] = aj_estrutural_kg_arr
-    # new_dataFrame["R$_AJ_ESTRUTURAL"] = aj_estrutural_rs_arr
+    new_dataFrame["%_AJ_ESTRUTURAL"] = aj_estrutural_percent_arr
+    new_dataFrame["KG_AJ_ESTRUTURAL"] = aj_estrutural_kg_arr
+    new_dataFrame["R$_AJ_ESTRUTURAL"] = aj_estrutural_real_arr
 
 
     new_dataFrame.to_csv("ArquivosCSV/filter_tabela.csv", mode="w", index=False)
