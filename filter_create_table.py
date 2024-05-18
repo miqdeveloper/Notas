@@ -1,6 +1,6 @@
 from math import nan
+from traceback import print_tb
 import pandas as pd
-from tqdm import tqdm
 import re
 
 # 'ArquivosCSV/file_csv.csv'
@@ -47,7 +47,12 @@ arr_filter = ["Integrado",
               "Aj Calo Pata A",
               "Aj Condenações",
               "Aj Qualidade",
-              "Aj Estrutural"
+              "Aj Estrutural",
+              "Aj Procedimento",
+              "Aj Processos/Procedimentos (PP)",
+              "Resultado Lote",
+              "Renda Bruta / Ave",
+              "FUNRURAL"
             ]
 
 file_execel = 'TABELA_1.csv'
@@ -186,6 +191,29 @@ def separate_():
     aj_estrutural_kg_arr = []
     aj_estrutural_real_arr = []
     
+    aj_procedimentos_percent_arr = []
+    aj_procedimentos_kg_arr = []
+    aj_procedimentos_real_arr = []
+    
+    aj_procedimentos_percent_arr = []
+    aj_procedimentos_kg_arr = []
+    aj_procedimentos_real_arr = []
+    
+    aj_processos_procedimentos_pp_percent_arr = []
+    aj_processos_procedimentos_pp_kg_arr = []
+    aj_processos_procedimentos_pp_real_arr = []
+    
+    resultado_lote_percent_arr = []
+    resultado_lote_kg_arr = []
+    resultado_lote_real_arr = []
+    
+    ave_real_arr = []
+    ton_real_arr = []
+    m2_real_arr = []
+    
+    funrural_arr = []
+    
+
     mod = []
     mod_2 = []
     
@@ -740,8 +768,6 @@ def separate_():
                         aj_sex_pes_real_f =  aj_sex_pes_separate[4]
                         aj_sex_pes_real_arr.append(aj_sex_pes_real_f)
                         # print(aj_sex_pes_separate)
-                        
-                    pass
                 
 
                 if arr_filter[36] == item:
@@ -778,10 +804,8 @@ def separate_():
 
                         if n_c_  == 2:
                             aj_idade_real_f = aj_idade_real_separate.split(" ")[1]
-                            pass
                         if n_c_  == 3:
                             aj_idade_real_f = aj_idade_real_separate.split(" ")[-1]
-                            pass
                         aj_idade_real_arr.append(aj_idade_real_f)
                         
                     
@@ -800,8 +824,7 @@ def separate_():
                         aj_idade_real_f = aj_idade_separate[2]
                         aj_idade_real_arr.append(aj_idade_real_f)
                         # print(aj_idade_real_f)
-                        
-                        pass
+
                     
                     if n_c_ == 5:
                         
@@ -818,8 +841,7 @@ def separate_():
                         aj_idade_real_f = aj_idade_separate[-1]
                         aj_idade_real_arr.append(aj_idade_real_f)
                 
-                # GET_Aj_Mortalidade
-                
+                # GET_Aj_Mortalidade                
                 if arr_filter[37] == item:
                     aj_mortalidade_separate = new_str.split(", ")
                     aj_mortalidade_separate = remove_empty_spaces(aj_mortalidade_separate)
@@ -1021,7 +1043,6 @@ def separate_():
                             aj_calo_pata_real_f = aj_calo_pata_real_f[-1]
                             
                         aj_calo_pata_a_real_arr.append(aj_calo_pata_real_f)
-                        pass
                     if n_c_ == 5:
                         aj_calo_pata_percent = aj_calo_pata_separate[2]
                         aj_calo_pata_a_percent_arr.append(aj_calo_pata_percent)
@@ -1031,9 +1052,6 @@ def separate_():
 
                         aj_calo_pata_real_f = aj_calo_pata_separate[-1]
                         aj_calo_pata_a_real_arr.append(aj_calo_pata_real_f)
-                        pass
-                    
-                    pass        
                 
                 # GET_ AJ_CONDENACOES
                 if arr_filter[41] == item:
@@ -1183,7 +1201,6 @@ def separate_():
                         aj_estrutural_real_ = aj_estrutural_separate[-1].split(" ")[-1]
                         aj_estrutural_real_arr.append(aj_estrutural_real_)
                         
-                        pass
                     if n_c_ == 4:
                         # AJ_ESTRUTURAL_%
                         aj_estrutural_percent_f = aj_estrutural_separate[1].replace("Aj Estrutural ", "").replace("Aj Estrutural", "")
@@ -1197,7 +1214,6 @@ def separate_():
                         aj_estrutural_real_ = aj_estrutural_separate[-1]
                         aj_estrutural_real_arr.append(aj_estrutural_real_)
                         
-                        pass
                     if n_c_ == 5:
                         # AJ_ESTRUTURAL_%
                         aj_estrutural_percent_f = aj_estrutural_separate[2]
@@ -1210,8 +1226,225 @@ def separate_():
                         # AJ_ESTRUTURAL_$
                         aj_estrutural_real_ = aj_estrutural_separate[-1]
                         aj_estrutural_real_arr.append(aj_estrutural_real_)
-                        pass
                 
+                # GET_AJ_PROCEDIMENTOS
+                if arr_filter[44] == item:
+                    aj_procedimento_separate = remove_empty_spaces(new_str.split(", "))
+                    
+                    n_c_ = len(aj_procedimento_separate)
+                    
+                    if n_c_ == 3:
+                        # AJ_PROCEDIMENTOS_%
+                        aj_procedimento_percent = aj_procedimento_separate[1].replace("Aj Procedimento ","").replace("Aj Procedimento","")
+                        if not aj_procedimento_percent:
+                            aj_procedimento_percent = aj_procedimento_separate[-1].split(" ")[0]
+                        aj_procedimentos_percent_arr.append(aj_procedimento_percent)
+                        
+                        # AJ_PROCEDIMENTOS_KG
+                        aj_procedimento_kg = aj_procedimento_separate[-1].split(" ")
+                        
+                        if len(aj_procedimento_kg) == 2:
+                            aj_procedimento_kg_f = aj_procedimento_kg[0]
+                            
+                        if len(aj_procedimento_kg) == 3:
+                            aj_procedimento_kg_f = aj_procedimento_kg[1]
+                            
+                        aj_procedimentos_kg_arr.append(aj_procedimento_kg_f)
+                        
+                        # AJ_PROCEDIMENTOS_$
+                        aj_procedimento_real = aj_procedimento_separate[-1].split(" ")[-1]
+                        aj_procedimentos_real_arr.append(aj_procedimento_real)
+
+                    if n_c_ == 4:
+                        # AJ_PROCEDIMENTOS_%
+                        aj_procedimento_percent = aj_procedimento_separate[1].replace("Aj Procedimento ","").replace("Aj Procedimento","")
+                        aj_procedimentos_percent_arr.append(aj_procedimento_percent)
+                        
+                        # AJ_PROCEDIMENTOS_KG
+                        aj_procedimento_kg = aj_procedimento_separate[2]
+                        if " " in aj_procedimento_kg:
+                            aj_procedimento_kg = aj_procedimento_kg.split(" ")[0]
+                            
+                        aj_procedimentos_kg_arr.append(aj_procedimento_kg)
+                        
+                        # AJ_PROCEDIMENTOS_$
+                        aj_procedimento_real = aj_procedimento_separate[-1]
+                        aj_procedimentos_real_arr.append(aj_procedimento_real)
+                        
+                    if n_c_ == 5:
+                        # AJ_PROCEDIMENTOS_%
+                        aj_procedimento_percent = aj_procedimento_separate[2]
+                        aj_procedimentos_percent_arr.append(aj_procedimento_percent)
+
+                        # AJ_PROCEDIMENTOS_KG
+                        aj_procedimento_kg = aj_procedimento_separate[3]
+                        aj_procedimentos_kg_arr.append(aj_procedimento_kg)
+                        
+                        # AJ_PROCEDIMENTOS_$
+                        aj_procedimento_real = aj_procedimento_separate[-1]
+                        aj_procedimentos_real_arr.append(aj_procedimento_real)
+
+                # Aj Processos/Procedimentos (PP)
+                if arr_filter[45] == item:
+                    aj_processos_separate = remove_empty_spaces(new_str.split(", "))
+                    n_c_ = len(aj_processos_separate)
+                    if n_c_ == 3:
+                        # Aj Processos/Procedimentos (PP)_%
+                        aj_processos_percent = aj_processos_separate[-1].split(" ")[0]
+                        aj_processos_procedimentos_pp_percent_arr.append(aj_processos_percent)
+                        
+                        # Aj Processos/Procedimentos (PP)_kg
+                        aj_processos_kg = aj_processos_separate[-1].split(" ")[1]
+                        aj_processos_procedimentos_pp_kg_arr.append(aj_processos_kg)
+
+                        
+                        # Aj Processos/Procedimentos (PP)_$
+                        aj_processos_real = aj_processos_separate[-1].split(" ")[-1]
+                        aj_processos_procedimentos_pp_real_arr.append(aj_processos_real)
+                        
+                    if n_c_ == 4:
+                        # Aj Processos/Procedimentos (PP)_%
+                        aj_processos_percent = aj_processos_separate[1].replace("Aj Processos/Procedimentos (PP) ", "").replace("Aj Processos/Procedimentos (PP)", "")
+                        if not aj_processos_percent:
+                            aj_processos_percent = nan
+                            
+                        aj_processos_procedimentos_pp_percent_arr.append(aj_processos_percent)
+                        
+                        # Aj Processos/Procedimentos (PP)_kg
+                        aj_processos_kg = aj_processos_separate[2]
+                        if " " in aj_processos_kg:
+                            aj_processos_kg = aj_processos_kg[0]
+                        aj_processos_procedimentos_pp_kg_arr.append(aj_processos_kg)
+                        
+                        # Aj Processos/Procedimentos (PP)_$
+                        aj_processos_real = aj_processos_separate[-1]
+                        aj_processos_procedimentos_pp_real_arr.append(aj_processos_real)
+                        
+                    if n_c_ == 5:
+                        # Aj Processos/Procedimentos (PP)_%
+                        aj_processos_percent = aj_processos_separate[2]
+                        aj_processos_procedimentos_pp_percent_arr.append(aj_processos_percent)
+                        
+                        # Aj Processos/Procedimentos (PP)_kg
+                        aj_processos_kg = aj_processos_separate[3]
+                        aj_processos_procedimentos_pp_kg_arr.append(aj_processos_kg)
+                        
+                        # Aj Processos/Procedimentos (PP)_$
+                        aj_processos_real = aj_processos_separate[-1]                        
+                        aj_processos_procedimentos_pp_real_arr.append(aj_processos_real)    
+
+                # GET_Resultado Lote
+                if arr_filter[46] == item:
+                    resultado_lote_separate = remove_empty_spaces(new_str.split(", "))
+                    n_c_ = len(resultado_lote_separate)
+                    if n_c_ == 3:
+                        # Resultado Lote_%
+                        res_lot_f = resultado_lote_separate[-1].split(" ")[0]
+                        resultado_lote_percent_arr.append(res_lot_f)
+                        
+                        # Resultado Lote_kg
+                        res_lot_kg = resultado_lote_separate[-1].split(" ")[1]
+                        resultado_lote_kg_arr.append(res_lot_kg)
+                        
+                        # Resultado Lote_$ 
+                        res_lot_real = resultado_lote_separate[-1].split(" ")[2]
+                        resultado_lote_real_arr.append(res_lot_real)
+                        pass
+                    if n_c_ == 4:
+                        # Resultado Lote_%
+                        res_lot_f = resultado_lote_separate[1].replace("Resultado Lote ","").replace("Resultado Lote","")
+                        resultado_lote_percent_arr.append(res_lot_f)
+                        
+                        # Resultado Lote_kg
+                        res_lot_kg = resultado_lote_separate[2]
+                        resultado_lote_kg_arr.append(res_lot_kg)
+                        
+                        # Resultado Lote_$
+                        res_lot_real = resultado_lote_separate[-1]
+                        resultado_lote_real_arr.append(res_lot_real)
+                        
+                        pass
+                    
+                    if n_c_ == 5:
+                        # Resultado Lote_%
+                        res_lot_f = resultado_lote_separate[2]
+                        resultado_lote_percent_arr.append(res_lot_f)
+                        
+                        
+                        
+                        # Resultado Lote_kg
+                        res_lot_kg = resultado_lote_separate[3]
+                        resultado_lote_kg_arr.append(res_lot_kg)
+                        
+                        # Resultado Lote_$
+                        res_lot_real = resultado_lote_separate[-1]
+                        resultado_lote_real_arr.append(res_lot_real)
+                
+                if arr_filter[47] == item:
+                    
+                    renda_b_ave = remove_empty_spaces(new_str.split(", "))
+                    n_c_ = len(renda_b_ave)
+                    
+                    if n_c_ == 3:
+                        renda_b_ave_f = renda_b_ave[-1].replace("Renda Bruta/Ton", ";").replace("Renda Bruta / m2", ";").replace(" ","")
+                        #Renda Bruta / Ave ; Renda Bruta/Ton ; Renda Bruta / m2
+                        renda_b_ave_f = renda_b_ave_f.split(";")
+                        
+                        #Renda Bruta / Ave
+                        renda_b_ave_f_ = renda_b_ave_f[0]
+                        
+                        # Renda Bruta/Ton
+                        renda_b_t_f = renda_b_ave_f[1]
+                        
+                        #  Renda Bruta / m2
+                        renda_b_m2_f = renda_b_ave_f[2]
+                        
+                        ave_real_arr.append(renda_b_ave_f_)
+                        ton_real_arr.append(renda_b_t_f)
+                        m2_real_arr.append(renda_b_m2_f)
+                        
+                        pass
+                    if n_c_ == 4:
+                        
+                        #Renda Bruta / Ave
+                        renda_b_ave_f_ = renda_b_ave[1].replace("Renda Bruta / Ave ","").replace(" Renda Bruta/Ton", "").replace(" ", "")
+                        ave_real_arr.append(renda_b_ave_f_)
+                        
+                        # Renda Bruta/Ton
+                        renda_b_t_f = renda_b_ave[2]
+                        ton_real_arr.append(renda_b_t_f)
+                        
+                        #  Renda Bruta / m2
+                        renda_b_m2_f = renda_b_ave[-1].replace("Renda Bruta / m2 ", "").replace("Renda Bruta / m2", "")
+                        m2_real_arr.append(renda_b_m2_f)
+                        
+                        pass
+                    if n_c_ == 5:
+                        #Renda Bruta / Ave
+                        renda_b_ave_f_ = renda_b_ave[1].replace("Renda Bruta / Ave ", "")
+                        ave_real_arr.append(renda_b_ave_f_)
+                        
+                        # Renda Bruta/Ton
+                        renda_b_t_f = renda_b_ave[3]
+                        ton_real_arr.append(renda_b_t_f)
+                        
+                        #  Renda Bruta / m2
+                        renda_b_m2_f = renda_b_ave[-1].replace("Renda Bruta / m2 ", "").replace("Renda Bruta / m2", "")
+                        m2_real_arr.append(renda_b_m2_f)
+
+                        pass
+                    pass
+                
+                if arr_filter[48] == item:
+                    fun_rural_separate = remove_empty_spaces(new_str.split(", "))
+                    if "Imposto FUNRURAL" in fun_rural_separate:
+                        print(fun_rural_separate)
+                        
+                        funrural_arr.append(fun_rural_separate)
+                    else:
+                        print(fun_rural_separate)
+                    # funrural_arr.append(new_str)
+                    pass
     # A partir do GET_percentual_basico pega Get_Kg_carne e pega $R_Base
     for eval_ in mod_2:
         if len(eval_) == 3:
@@ -1234,7 +1467,7 @@ def separate_():
             
     # for value in aj_porcent_arr:
         # print(value)
-    print(len(aj_estrutural_real_arr))                
+    print(len(funrural_arr))
     # print(len(valor_kg_f_arr))
     print(len(arr_filter))
     # #grava os dados para a nova tabela
@@ -1322,6 +1555,24 @@ def separate_():
     new_dataFrame["%_AJ_ESTRUTURAL"] = aj_estrutural_percent_arr
     new_dataFrame["KG_AJ_ESTRUTURAL"] = aj_estrutural_kg_arr
     new_dataFrame["R$_AJ_ESTRUTURAL"] = aj_estrutural_real_arr
+    
+    new_dataFrame["%_AJ_PROCEDIMENTOS"] = aj_procedimentos_percent_arr
+    new_dataFrame["KG_AJ_PROCEDIMENTOS"] = aj_procedimentos_kg_arr
+    new_dataFrame["R$_AJ_PROCEDIMENTOS"] = aj_procedimentos_real_arr
+
+    new_dataFrame["%_AJ_PROCESSOS_PROCEDIMENTOS_PP"] = aj_processos_procedimentos_pp_percent_arr
+    new_dataFrame["KG_AJ_PROCESSOS_PROCEDIMENTOS_PP"] = aj_processos_procedimentos_pp_kg_arr
+    new_dataFrame["R$_AJ_PROCESSOS_PROCEDIMENTOS_PP"] = aj_processos_procedimentos_pp_real_arr
+
+    new_dataFrame["%_RESULTADO_LOTE"] = resultado_lote_percent_arr
+    new_dataFrame["KG_RESULTADO_LOTE"] = resultado_lote_kg_arr
+    new_dataFrame["R$_RESULTADO_LOTE"] = resultado_lote_real_arr
+    
+    new_dataFrame["R$_AVE"] = ave_real_arr
+    new_dataFrame["R$_TON"] = ton_real_arr
+    new_dataFrame["R$_M2"] = m2_real_arr
+    
+    
 
 
     new_dataFrame.to_csv("ArquivosCSV/filter_tabela.csv", mode="w", index=False)
