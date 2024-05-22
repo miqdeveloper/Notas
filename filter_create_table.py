@@ -1446,15 +1446,19 @@ def separate_():
                     fun_rural_separate = remove_empty_spaces(new_str.split(", "))
                     funrural_arr.append(fun_rural_separate)
                     # print(fun_rural_separate)
+                    
+    id_para_valor = {item[0]: item[2] for item in funrural_arr}
+    funrural_arr_f = [id_para_valor.get(id, 'nan') for id in id_uni]
+    # print((nova_lista_com_valores))
     
-    def process_funrural(**args):
-        for id_ in id_uni:
-            for item_ in funrural_arr:
-                print(id_)
-        
-    process_funrural()
-    
+    def process_funrural(**args):       
+        id_para_valor = {item[0]: item[2] for item in funrural_arr}
+        # Nova lista com valores correspondentes ou 'NAN'
+        nova_lista_com_valores = [id_para_valor.get(id, 'nan') for id in id_uni]
+        print(len(nova_lista_com_valores))
+
         # pass
+        
     # A partir do GET_percentual_basico pega Get_Kg_carne e pega $R_Base
     for eval_ in mod_2:
         if len(eval_) == 3:
@@ -1583,6 +1587,7 @@ def separate_():
     new_dataFrame["R$_AVE"] = ave_real_arr
     new_dataFrame["R$_TON"] = ton_real_arr
     new_dataFrame["R$_M2"] = m2_real_arr
+    new_dataFrame["FUNRURAL"] = funrural_arr_f
     
     
 
