@@ -1,6 +1,6 @@
 from math import nan
-from traceback import print_tb
 import pandas as pd
+from tqdm import tqdm
 import re
 
 # 'ArquivosCSV/file_csv.csv'
@@ -52,7 +52,7 @@ arr_filter = ["Integrado",
               "Aj Processos/Procedimentos (PP)",
               "Resultado Lote",
               "Renda Bruta / Ave",
-              "FUNRURAL"
+              "Imposto FUNRURAL"
             ]
 
 file_execel = 'TABELA_1.csv'
@@ -217,6 +217,7 @@ def separate_():
     mod = []
     mod_2 = []
     
+    id_uni = []
     df = pd.read_csv(file_execel)
     
     new_dataFrame= pd.DataFrame()
@@ -246,11 +247,11 @@ def separate_():
     
     def converter_para_float(numero_str):
         numero_str = numero_str.replace(',', '.')
-        return float(numero_str)          
+        return float(numero_str)
+              
      #ITERA SOBRE O NOVO DATA FRAME FILTRADO
     for index, row in df.iterrows():
         line_item = str(row.iloc[0])
-        # print(line_item)
         # print(line_item)
         
         new_str = re.sub(r"\[|\]", "", line_item)
@@ -277,14 +278,20 @@ def separate_():
                 # Get_PEDIDO/LOTE                
                 if arr_filter[1] == item:
                     get_pedido = remove_empty_spaces(new_str.split(","))
-                    n_pedido =find_numbers(get_pedido[1])                              
+                    
+                    n_pedido =find_numbers(get_pedido[1])
                     if (find_numbers(get_pedido[1])):
                         get_p = get_pedido[1].replace("Pedido ", "")
+                        
                         lote_ = remove_empty_spaces(get_p.split(" "))
                         lote_ = lote_[0].replace("Vlr", "")                        
                         if lote_:
                             mod.append(lote_)
-     
+                            id_uni.append(get_pedido[0])
+                            
+                arr_pedido = list(dict.fromkeys(mod))
+                id_uni = list(dict.fromkeys(id_uni))
+            
                 # Get_municipio
                 if  arr_filter[2] == item:
                     separate_mun = new_str.split(",")
@@ -1437,14 +1444,17 @@ def separate_():
                 
                 if arr_filter[48] == item:
                     fun_rural_separate = remove_empty_spaces(new_str.split(", "))
-                    if "Imposto FUNRURAL" in fun_rural_separate:
-                        print(fun_rural_separate)
-                        
-                        funrural_arr.append(fun_rural_separate)
-                    else:
-                        print(fun_rural_separate)
-                    # funrural_arr.append(new_str)
-                    pass
+                    funrural_arr.append(fun_rural_separate)
+                    # print(fun_rural_separate)
+    
+    def process_funrural(**args):
+        for id_ in id_uni:
+            for item_ in funrural_arr:
+                print(id_)
+        
+    process_funrural()
+    
+        # pass
     # A partir do GET_percentual_basico pega Get_Kg_carne e pega $R_Base
     for eval_ in mod_2:
         if len(eval_) == 3:
@@ -1467,11 +1477,13 @@ def separate_():
             
     # for value in aj_porcent_arr:
         # print(value)
-    print(len(funrural_arr))
+    # print(len(id_uni))
+    
     # print(len(valor_kg_f_arr))
     print(len(arr_filter))
     # #grava os dados para a nova tabela
-    arr_pedido = list(dict.fromkeys(mod))
+    # arr_pedido = list(dict.fromkeys(mod))
+    
     # print(len(tecnico_arr), len(key_arr))
     new_dataFrame["CHAVE"] = key_arr
     new_dataFrame["CLIFOR"] =  clifor_arr
