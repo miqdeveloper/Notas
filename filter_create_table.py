@@ -1465,8 +1465,13 @@ def separate_():
                     conta_corrente.append(cnt_corrente)
                     
                 if arr_filter[51] == item:
-                    print(item)
-                    pass
+                    cnt_vinculada = remove_empty_spaces(new_str.split(", "))
+                    cnt_vinculada = cnt_vinculada[1].replace("Conta Corrente Vinculada ", "").replace("Conta Corrente Vinculada", "")
+                    if not cnt_vinculada:
+                        cnt_vinculada = "nan"
+                        
+                    conta_vinculada.append(cnt_vinculada)
+                    
     # metodo usando compreessao de lista para FUNRURAL           
     id_para_valor = {item[0]: item[2] for item in funrural_arr}
     funrural_arr_f = [id_para_valor.get(id, 'nan') for id in id_uni]
@@ -1603,7 +1608,7 @@ def separate_():
     new_dataFrame["FUNRURAL"] = funrural_arr_f
     new_dataFrame["SENAR"] = senar_arr
     new_dataFrame["CONTA_CORRENTE"] = conta_corrente
-    # new_dataFrame["CONTA_VINCULADA"] = conta_vinculada
+    new_dataFrame["CONTA_VINCULADA"] = conta_vinculada
     
     
     
