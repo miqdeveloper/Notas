@@ -52,7 +52,10 @@ arr_filter = ["Integrado",
               "Aj Processos/Procedimentos (PP)",
               "Resultado Lote",
               "Renda Bruta / Ave",
-              "Imposto FUNRURAL"
+              "Imposto FUNRURAL",
+              "Imposto SENAR",
+              "Conta Corrente Produtor",
+              "Conta Corrente Vinculada"
             ]
 
 file_execel = 'TABELA_1.csv'
@@ -212,14 +215,18 @@ def separate_():
     m2_real_arr = []
     
     funrural_arr = []
+    senar_arr = []
+    
+    conta_corrente = []
+    conta_vinculada = []
     
 
     mod = []
     mod_2 = []
     
     id_uni = []
-    df = pd.read_csv(file_execel)
     
+    df = pd.read_csv(file_execel)    
     new_dataFrame= pd.DataFrame()
     
     def find_dates(text):
@@ -1442,15 +1449,29 @@ def separate_():
                         pass
                     pass
                 
+                # GET FUNRURAL - Como todos nao tem, temos que atribuir o valor nan mantendo a ordem pra isso foi usado compreesao de lista
                 if arr_filter[48] == item:
                     fun_rural_separate = remove_empty_spaces(new_str.split(", "))
                     funrural_arr.append(fun_rural_separate)
-                    # print(fun_rural_separate)
                     
+                if arr_filter[49] == item:
+                    senar_separate = remove_empty_spaces(new_str.split(", "))
+                    senar_separate = senar_separate[2]
+                    senar_arr.append(senar_separate)
+                    
+                if arr_filter[50] == item:
+                    cnt_corrente = remove_empty_spaces(new_str.split(", "))
+                    cnt_corrente = cnt_corrente[1].replace("Conta Corrente Produtor ", "").replace("Conta Corrente Produtor", "")
+                    conta_corrente.append(cnt_corrente)
+                    
+                if arr_filter[51] == item:
+                    print(item)
+                    pass
+    # metodo usando compreessao de lista para FUNRURAL           
     id_para_valor = {item[0]: item[2] for item in funrural_arr}
     funrural_arr_f = [id_para_valor.get(id, 'nan') for id in id_uni]
     
-        
+    
     # A partir do GET_percentual_basico pega Get_Kg_carne e pega $R_Base
     for eval_ in mod_2:
         if len(eval_) == 3:
@@ -1476,7 +1497,7 @@ def separate_():
     # print(len(id_uni))
     
     # print(len(valor_kg_f_arr))
-    print(len(arr_filter))
+    print("Quant. Itens in array:", len(conta_corrente))
     # #grava os dados para a nova tabela
     # arr_pedido = list(dict.fromkeys(mod))
     
@@ -1580,6 +1601,10 @@ def separate_():
     new_dataFrame["R$_TON"] = ton_real_arr
     new_dataFrame["R$_M2"] = m2_real_arr
     new_dataFrame["FUNRURAL"] = funrural_arr_f
+    new_dataFrame["SENAR"] = senar_arr
+    new_dataFrame["CONTA_CORRENTE"] = conta_corrente
+    # new_dataFrame["CONTA_VINCULADA"] = conta_vinculada
+    
     
     
 
