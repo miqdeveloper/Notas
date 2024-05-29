@@ -1,0 +1,57 @@
+# Integrado
+# Endereço
+# Municipio
+# CPF/CGC
+# Lote
+# Data Média Alojto
+# Hora Média Alojto
+# Área Alojada
+# Sexo
+# Linhagem
+# Ajs Lnhg.
+# Prev Semanal de Conv.
+# Conv. Ajustada Prev
+# Conv. Alimentar Real
+# Conv. Real Ajustada
+# Difça (PrevXReal)
+# PF - Preço do Kg do Frango
+# VRac - Vlr das Rações
+# Percentual Básico de Partilha
+# Avaliação Conversão
+# Avaliação Condenação
+# Avaliação Calo de Patas
+# Avaliação Check-List
+# Resultado Bruto do Lote
+# Valor Renda Bruta
+# Valor NF
+# Valor Total a Depositar
+# Dist Km
+# Área disp
+# Qtde Alojada
+# Data Acerto do Lote
+# Qtde Abatida
+# Peso Médio Alojado
+# Data Média Abate
+# Peso Recebido
+# Hora média Abate
+# Ração Consumida
+# Peso Médio Real
+# Tipo Produto
+# GPD
+# Peso Médio Projetado
+# Ajs Peso Pinto
+# IEE
+# IEP
+# PM Real - PM Projetado
+# No Aves Condenadas Total
+# No Aves Condenadas Parcial
+# No de Patas Condenadas
+# Pc Condenações - Previsto
+# Pc Calo de Pata - Previsto
+# Mort. Prev
+# Pc Condenações - Real
+# Pc Calo de Pata - Real
+# Mort. Real
+# Difça Cond (Prev-Real)
+# Difça Calo Pata (Prev-Real)
+# Difça (PrevXReal)

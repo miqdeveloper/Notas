@@ -44,14 +44,16 @@ def process_arrays(arrays, name_file, chaves):
     """Process arrays csv."""
     
     for array in arrays:
+        
         df = pd.DataFrame(array)
         df.insert(0, "CHAVE", name_file)
         column = df.columns[1].replace(":", "")
         
-        semaforo.acquire()
-        
+        cols.append(column)
         if column in chaves:
             cols.append(column)
+            
+        semaforo.acquire()
         
         for _, row in df.iterrows():
             row_values = list(row.values)                
@@ -62,6 +64,7 @@ def process_arrays(arrays, name_file, chaves):
                 
             cols.append(row_values)    
         semaforo.release()
+
 
 def main():
 
@@ -91,6 +94,7 @@ def main():
         "HISTÓRICO DOS PEDIDOS ANTERIORES",
         "OBSERVAÇÔES",
         "FINANCIAMENTO",
+        "Integrado"
     ]
     
     create_dirs(files)
@@ -112,8 +116,7 @@ def main():
                     template_json = "T5.tabula-template.json"
                 
                 dfs = read_pdf_with_template(os.path.join(files[0], file_name), os.path.join(files[2], template_json), stream=True)
-                # process_arrays(dfs, base_name, chaves)
-                
+
                 t = Thread(target=process_arrays, args=(dfs, base_name, chaves,))
                 t.daemon = True
                 workers.append(t)
@@ -138,7 +141,7 @@ def main():
         df = pd.DataFrame(cols)
         # print(cols)
         # df.to_excel("file_execel.xlsx", index=False)        
-        df.to_csv(f"{files[1]}/{file_save_name}", mode='a', header=False, index=False, encoding='utf-8', errors='ignore')      
+        df.to_csv(f"{files[1]}/{file_save_name}", mode='a', header=True, index=False, encoding='utf-8', errors='ignore')      
         print("Completo!")
     except Exception as err:
         traceback.print_exc
