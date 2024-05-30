@@ -1,5 +1,5 @@
-# Integrado
-# Endereço
+# Integrado - 
+# Endereço - 
 # Municipio
 # CPF/CGC
 # Lote
@@ -53,5 +53,10 @@
 # Pc Calo de Pata - Real
 # Mort. Real
 # Difça Cond (Prev-Real)
-# Difça Calo Pata (Prev-Real)
+# Difça Calo Pata (Prev-Real) 
 # Difça (PrevXReal)
+
+
+Integrado - NOME E NUMERO
+
+

@@ -48,10 +48,11 @@ def process_arrays(arrays, name_file, chaves):
         df = pd.DataFrame(array)
         df.insert(0, "CHAVE", name_file)
         column = df.columns[1].replace(":", "")
+        # print(column)
         
         cols.append(column)
-        if column in chaves:
-            cols.append(column)
+        # if column in chaves:
+        #     cols.append(column)
             
         semaforo.acquire()
         
@@ -94,7 +95,6 @@ def main():
         "HISTÓRICO DOS PEDIDOS ANTERIORES",
         "OBSERVAÇÔES",
         "FINANCIAMENTO",
-        "Integrado"
     ]
     
     create_dirs(files)
@@ -148,6 +148,6 @@ def main():
 
     end_time = (time.time() - start_time)/60
     print(f"Tempo de exec: {end_time:.2f}")
-    input("\nAperte qualquer tecla para sair...")
+    # input("\nAperte qualquer tecla para sair...")
 
 main()

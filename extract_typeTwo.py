@@ -1,5 +1,5 @@
 import pandas as pd
-import re
+import re, ast
 
 file_execel = "ArquivosCSV/file_csv.csv"
 df = pd.read_csv(file_execel, encoding="utf-8")    
@@ -34,24 +34,56 @@ def converter_para_float(numero_str):
             
     #ITERA SOBRE O NOVO DATA FRAME FILTRADO
 
+def find_id_ifem(id_):
+    id_ = ast.literal_eval(id_)
+    id_ = id_[0]    
+    padrao = r'\d+-\d+'
+    id_f = re.match(padrao, str(id_))
+    return id_f
+
+integrado_arr = []
+id_uni = []
+endereco_arr = []
+
 def main():
     for index, row in df.iterrows():
         line_item = str(row.iloc[0])
-        # print(line_item)
+       
         
         new_str = re.sub(r"\[|\]", "", line_item)
         new_str = remove_empty_spaces(remove_chars(new_str).split(", "))
+        # print(new_str)
         len_newStr = len(new_str)
-        
-        if len_newStr == 1:
-            pass
-        if "Integrado" in new_str[0]:
-            # print(new_str)
-            pass
-        if "Difça Calo Pata (Prev-Real)" in str(new_str):
-            n_c = len(new_str)
-            if n_c == 3:
-                print(new_str[1:])
-            pass
 
+        if find_id_ifem(str(new_str)):
+            id_uni.append(new_str[0])
+            
+        if "Integrado" in str(new_str):
+                        
+            separe_id=remove_empty_spaces(remove_chars(str(df.loc[index+2][0])).split(", "))[0]
+            if "Integrado" in new_str[0]: 
+                integrado_f = separe_id+", "+find_letters(new_str[0])[1]
+                
+                integrado_arr.append(integrado_f)
+
+        if "Endereço" in str(new_str):
+            endereco_f = (new_str[1].replace(" Técnico ", ", ").replace("Endereço ", ""))
+            endereco_f = endereco_f.split(", ")[0]
+            endereco_arr.append(endereco_f)
+            n_c = len(new_str)
+            # if n_c == 3:
+            #     # print(new_str[1:])
+            #     pass
+            pass
+    
+    id_uni_f = list(dict.fromkeys(id_uni))
+    integrado_arr_f = list(dict.fromkeys(integrado_arr))
+    integrado_arr_f = [f.split(", ")[1] for f in integrado_arr_f ]
+    
+    new_dataFrame["CHAVE"] = id_uni_f
+    new_dataFrame["INTEGRADO"] = integrado_arr_f
+    new_dataFrame["ENDEREÇO"] = endereco_arr
+    
+    
+    new_dataFrame.to_csv("ArquivosCSV/avisidro_tabela.csv", mode="w", index=False)
 main()
