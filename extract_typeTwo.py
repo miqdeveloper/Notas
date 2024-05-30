@@ -71,9 +71,8 @@ def main():
             endereco_f = endereco_f.split(", ")[0]
             endereco_arr.append(endereco_f)
             n_c = len(new_str)
-            # if n_c == 3:
-            #     # print(new_str[1:])
-            #     pass
+        if "Municipio" in str(new_str):
+            print(new_str)
             pass
     
     id_uni_f = list(dict.fromkeys(id_uni))
