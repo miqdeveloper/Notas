@@ -28,6 +28,12 @@ def remove_chars(input_str):
         input_str = input_str.replace(char, "")
     return input_str
 
+def remove_chars_s_points(input_str):
+    chars_to_remove = ["[", "\"", "'", "nan", "]"]
+    for char in chars_to_remove:
+        input_str = input_str.replace(char, "")
+    return input_str
+
 def converter_para_float(numero_str):
     numero_str = numero_str.replace(',', '.')
     return float(numero_str)
@@ -44,6 +50,11 @@ def find_id_ifem(id_):
 integrado_arr = []
 id_uni = []
 endereco_arr = []
+municipio_arr = []
+cgc_arr = []
+lote_arr = []
+dtma_arr = []
+hma_arr = []
 
 def main():
     for index, row in df.iterrows():
@@ -62,8 +73,7 @@ def main():
                         
             separe_id=remove_empty_spaces(remove_chars(str(df.loc[index+2][0])).split(", "))[0]
             if "Integrado" in new_str[0]: 
-                integrado_f = separe_id+", "+find_letters(new_str[0])[1]
-                
+                integrado_f = separe_id+", "+find_letters(new_str[0])[1]                
                 integrado_arr.append(integrado_f)
 
         if "Endereço" in str(new_str):
@@ -71,8 +81,30 @@ def main():
             endereco_f = endereco_f.split(", ")[0]
             endereco_arr.append(endereco_f)
             n_c = len(new_str)
+            
         if "Municipio" in str(new_str):
-            print(new_str)
+            muni_separate = (new_str[1]).replace("Dist", ",").split(", ")
+            muni_f = muni_separate[0].replace("Municipio ", "").replace(" ", "")
+            municipio_arr.append(muni_f)
+            
+        if "CPF/CGC" in str(new_str):
+            cgc_f = find_numbers(new_str[1])[0].replace(" ", "")
+            cgc_arr.append(cgc_f)
+            
+        if "Lote" and "Qtde Alojada" in str(new_str):
+            lote_separate = new_str[1].replace("Qtde Alojada", ",").replace("Qtde Alojada ", ",").split(", ")
+            lote_s_f = lote_separate[0].replace("Lote", "").replace("Lote ", "").replace(" ", "")
+            lote_arr.append(lote_s_f)
+            pass
+        
+        if "Data Média Alojto" in str(new_str):
+            dtma_f = new_str[1].replace("Peso Médio Alojado", ",").split(", ")[0].replace("Data Média Alojto ", "").replace("Data Média Alojto", "")
+            dtma_arr.append(dtma_f)
+            
+        if "Hora Média" in str(new_str):
+            hma_f = (line_item)
+            print(hma_f)
+            hma_arr.append(hma_f)
             pass
     
     id_uni_f = list(dict.fromkeys(id_uni))
@@ -82,6 +114,11 @@ def main():
     new_dataFrame["CHAVE"] = id_uni_f
     new_dataFrame["INTEGRADO"] = integrado_arr_f
     new_dataFrame["ENDEREÇO"] = endereco_arr
+    new_dataFrame["MUNICIPIO"] = municipio_arr
+    new_dataFrame["CPF/CGC"] = cgc_arr
+    new_dataFrame["LOTE"] = lote_arr
+    new_dataFrame["DATA_MEDIA_ALOJTO"] = dtma_arr
+    # new_dataFrame["HORA_MEDIA_ALOJTO"] = hma_arr
     
     
     new_dataFrame.to_csv("ArquivosCSV/avisidro_tabela.csv", mode="w", index=False)
