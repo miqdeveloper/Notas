@@ -2,7 +2,8 @@ import pandas as pd
 import re, ast
 
 file_execel = "ArquivosCSV/file_csv.csv"
-df = pd.read_csv(file_execel, encoding="utf-8")    
+df_2 = pd.read_csv(file_execel, encoding="utf-8", index_col=0)   
+df = pd.read_csv(file_execel, encoding="utf-8")
 new_dataFrame= pd.DataFrame()
     
 def find_dates(text):
@@ -70,15 +71,19 @@ def main():
             id_uni.append(new_str[0])
             
         if "Integrado" in str(new_str):
+            # print(str(new_str))
                         
             separe_id=remove_empty_spaces(remove_chars(str(df.loc[index+2][0])).split(", "))[0]
-            if "Integrado" in new_str[0]: 
-                integrado_f = separe_id+", "+find_letters(new_str[0])[1]                
+            
+            if "Integrado" in new_str[1]: 
+                integrado_f = separe_id+", "+find_letters(new_str[1])[1]
+                # print(integrado_f)
                 integrado_arr.append(integrado_f)
 
         if "Endereço" in str(new_str):
             endereco_f = (new_str[1].replace(" Técnico ", ", ").replace("Endereço ", ""))
             endereco_f = endereco_f.split(", ")[0]
+            
             endereco_arr.append(endereco_f)
             n_c = len(new_str)
             
@@ -101,9 +106,9 @@ def main():
             dtma_f = new_str[1].replace("Peso Médio Alojado", ",").split(", ")[0].replace("Data Média Alojto ", "").replace("Data Média Alojto", "")
             dtma_arr.append(dtma_f)
             
-        if "Hora Média" in str(new_str):
-            hma_f = (line_item)
-            print(hma_f)
+        if "Hora Média Alojto" in str(new_str):
+            hma_f = remove_chars_s_points(line_item).replace("Hora média Abate:", ",").split(", ")[1].replace("Hora Média Alojto:", "").replace(" ", "")
+            
             hma_arr.append(hma_f)
             pass
     
@@ -118,8 +123,8 @@ def main():
     new_dataFrame["CPF/CGC"] = cgc_arr
     new_dataFrame["LOTE"] = lote_arr
     new_dataFrame["DATA_MEDIA_ALOJTO"] = dtma_arr
-    # new_dataFrame["HORA_MEDIA_ALOJTO"] = hma_arr
-    
+    new_dataFrame["HORA_MEDIA_ALOJTO"] = hma_arr
+    # print(df_2)
     
     new_dataFrame.to_csv("ArquivosCSV/avisidro_tabela.csv", mode="w", index=False)
 main()

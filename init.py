@@ -10,7 +10,7 @@ semaforo = Semaphore(5)
 
 cols = []
 
-del_words = ["ALOJAMENTO","DESEMPENHO DO LOTE","CÁLCULO DA PARTILHA DO INTEGRADO"]
+del_words = []
 file_save_name = r"file_csv.csv"
 """
 ALOJAMENTO,
@@ -34,7 +34,8 @@ def create_dirs(dirs):
 def get_pdf_num_pages(file_path):
     """Get the number of pages in a PDF."""
     pdf = pypdf.PdfReader(file_path)
-    return len(pdf.pages)
+    pdf_l = len(pdf.pages)
+    return pdf_l
 
 def remove_colons(text):
     """Remove colons from a string."""
@@ -46,13 +47,14 @@ def process_arrays(arrays, name_file, chaves):
     for array in arrays:
         
         df = pd.DataFrame(array)
+        # e
         df.insert(0, "CHAVE", name_file)
         column = df.columns[1].replace(":", "")
         # print(column)
         
         cols.append(column)
-        # if column in chaves:
-        #     cols.append(column)
+        if column in chaves:
+            cols.append(column)
             
         semaforo.acquire()
         
@@ -105,7 +107,9 @@ def main():
         for file_name in tqdm(os.listdir(files[0]), desc="Processando arquivos"):
             if file_name.endswith(".pdf"):
                 pdf_num_pages = get_pdf_num_pages(os.path.join(files[0], file_name))
+                # print("AQUI:", pdf_num_pages)
                 base_name = os.path.splitext(file_name)[0]
+                
                 if pdf_num_pages == 2:
                     template_json = "T2.tabula-template.json"
                 if pdf_num_pages == 3:
