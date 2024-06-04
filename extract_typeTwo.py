@@ -57,6 +57,27 @@ lote_arr = []
 dtma_arr = []
 hma_arr = []
 
+hma_arr = []
+aa_arr = []
+sexo_arr = []
+linhagem_arr = []
+ajs_lnhg_arr = []
+psc_arr = []
+cap_arr = []
+car_arr = []
+cra_arr = []
+dp_arr = []
+pf_arr = []
+vrac_arr = []
+pbp_arr = []
+ac_arr = []
+acd_arr = []
+acp_arr = []
+acl_arr = []
+rbl_arr = []
+vrb_arr = []
+
+
 def main():
     for index, row in df.iterrows():
         line_item = str(row.iloc[0])
@@ -75,9 +96,9 @@ def main():
                         
             separe_id=remove_empty_spaces(remove_chars(str(df.loc[index+2][0])).split(", "))[0]
             
-            if "Integrado" in new_str[1]: 
-                integrado_f = separe_id+", "+find_letters(new_str[1])[1]
-                # print(integrado_f)
+            
+            if "Integrado" in str(new_str): 
+                integrado_f = separe_id+", "+find_letters(str(new_str))[1]
                 integrado_arr.append(integrado_f)
 
         if "Endereço" in str(new_str):
@@ -108,13 +129,61 @@ def main():
             
         if "Hora Média Alojto" in str(new_str):
             hma_f = remove_chars_s_points(line_item).replace("Hora média Abate:", ",").split(", ")[1].replace("Hora Média Alojto:", "").replace(" ", "")
-            
             hma_arr.append(hma_f)
+            
+        if "Área Alojada" in str(new_str):
+            arl_s = new_str[1].replace("Área Alojada ", "").replace("Área Alojada", "")
+            aa_arr.append(arl_s)
+            
+        if "Sexo" in str(new_str):
+            sexo_s = new_str[1].replace(" Idade Abate ", ", ").replace(" Idade Abate", ",")
+            sexo_s = sexo_s.split(", ")[0].replace("Sexo", "").replace("Sexo ", "").replace(" ", "")
+            sexo_arr.append(sexo_s)
+            
+        if "Linhagem" in str(new_str):
+            print(new_str)
+            
             pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+
     
     id_uni_f = list(dict.fromkeys(id_uni))
     integrado_arr_f = list(dict.fromkeys(integrado_arr))
     integrado_arr_f = [f.split(", ")[1] for f in integrado_arr_f ]
+    # print(integrado_arr_f)
     
     new_dataFrame["CHAVE"] = id_uni_f
     new_dataFrame["INTEGRADO"] = integrado_arr_f
@@ -124,6 +193,25 @@ def main():
     new_dataFrame["LOTE"] = lote_arr
     new_dataFrame["DATA_MEDIA_ALOJTO"] = dtma_arr
     new_dataFrame["HORA_MEDIA_ALOJTO"] = hma_arr
+    new_dataFrame["AREA_ALOJADA"] = aa_arr
+    new_dataFrame["SEXO"] = sexo_arr
+    # new_dataFrame["LINHAGEM"] = linhagem_arr
+    # new_dataFrame["AJS_LNHG"] = ajs_lnhg_arr
+    # new_dataFrame["PREV_SEMANAL_DE_CONV"] = psc_arr
+    # new_dataFrame["CONV_AJUSTADA_PREV"] = cap_arr
+    # new_dataFrame["CONV_ALIMENTAR_REAL"] = car_arr
+    # new_dataFrame["CONV_REAL_AJUSTADA"] = cra_arr
+    # new_dataFrame["DIFCA_PREVXREAL"] = dp_arr
+    # new_dataFrame["PF_PRECO_DO_KG_DO_FRANGO"] = pf_arr
+    # new_dataFrame["VRAC_VLR_DAS_RACOES"] = vrac_arr
+    # new_dataFrame["PERCENTUAL_BASICO_DE_PARTILHA"] = pbp_arr
+    # new_dataFrame["AVALIACAO_CONVERSAO"] = ac_arr
+    # new_dataFrame["AVALIACAO_CONDENACAO"] = acd_arr
+    # new_dataFrame["AVALIACAO_CALO_DE_PATAS"] = acp_arr
+    # new_dataFrame["AVALIACAO_CHECK_LIST"] = acl_arr
+    # new_dataFrame["RESULTADO_BRUTO_DO_LOTE"] = rbl_arr
+    # new_dataFrame["VALOR_RENDA_BRUTA"] = vrb_arr
+
     # print(df_2)
     
     new_dataFrame.to_csv("ArquivosCSV/avisidro_tabela.csv", mode="w", index=False)
