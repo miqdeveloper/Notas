@@ -75,12 +75,31 @@ cra_arr = []
 dp_arr = []
 pf_arr = []
 vrac_arr = []
-pbp_arr = []
-ac_arr = []
-acd_arr = []
-acp_arr = []
-acl_arr = []
+
+pbp_percente_arr = []
+pbp_kg_arr = []
+pbp_real_arr = []
+
+
+avc_percente_arr = []
+avc_kg_arr = []
+avc_real_arr = []
+
+acd_percent_arr = []
+acd_kg_arr = []
+acd_real_arr = []
+
+acp_percent_arr = []
+acp_kg_arr = []
+acp_real_arr = []
+
+acl_percent_arr = []
+acl_kg_arr = []
+acl_real_arr = []
+
 rbl_arr = []
+
+
 vrb_arr = []
 
 
@@ -152,8 +171,7 @@ def main():
             lnh_s = new_str[1].replace("Tipo Produto", ", ").split(",")[0]
             lnh_s = lnh_s.replace("Linhagem ", "").replace("Linhagem", "")
             linhagem_arr.append(lnh_s)
-            
-            
+                     
         if "Ajs Lnhg" in str(new_str):
             ajs_s = new_str[1].replace("Ajs Peso Pinto", ",").split(", ")[0]
             ajs_s = ajs_s.replace("Ajs Lnhg. ", "").replace("Ajs Lnhg.", "")
@@ -172,8 +190,7 @@ def main():
         if "Conv. Alimentar Real" in str(new_str):
             car_f = new_str[1].replace("Pc Condenações - Previsto ", ", ").split(", ")[0].replace("Conv. Alimentar Real", "").replace(" ", "")
             car_arr.append(car_f)
-        
-        
+          
         if "Conv. Real Ajustada" in str(new_str):
             cra_f =new_str[1].replace("Pc Condenações - Real", ", ").split(", ")[0].replace("Conv. Real Ajustada", "").replace(" ", "")
             cra_arr.append(cra_f)
@@ -187,18 +204,81 @@ def main():
             pf_arr.append(pf_f)
             
         if "VRac - Vlr das Rações" in str(new_str):
+            # print(new_str)
             vrac_f = new_str[1].replace("% Kg R$ R$/Cab", "").replace("VRac - Vlr das Rações", "").replace(" ", "")
             vrac_arr.append(vrac_f)
             
-        if "" in str(new_str):
-            pass
-        if "" in str(new_str):
-            pass
-        if "" in str(new_str):
-            pass
-        if "" in str(new_str):
-            pass
-        if "" in str(new_str):
+        if "Percentual Básico de Partilha" in str(new_str):
+            
+            pbp_sep = remove_empty_spaces(list(new_str[1].replace("Percentual Básico de Partilha", "").split(" ")))
+           
+            # %
+            pbp_percente_arr.append(pbp_sep[0])
+            
+            # kg
+            pbp_kg_arr.append(pbp_sep[1])
+            
+            # $
+            pbp_real_arr.append(pbp_sep[2])
+            
+        if "Avaliação Conversão" in str(new_str):
+            avc_f = remove_empty_spaces(new_str[1].replace("Avaliação Conversão", "").split(" "))
+
+            # %
+            avc_percent_f=(avc_f[0])
+            avc_percente_arr.append(avc_percent_f)
+            
+            # kg
+            avc_kg_f=(avc_f[1])
+            avc_kg_arr.append(avc_kg_f)
+            
+            # $
+            avc_real_f=(avc_f[2])
+            avc_real_arr.append(avc_real_f)
+            
+        if "Avaliação Condenação" in str(new_str):
+            acd_s = remove_empty_spaces(new_str[1].replace("Avaliação Condenação", "").split(" "))
+            
+            # %           
+            acd_percent_arr.append(acd_s[0])
+            # kg
+            acd_kg_arr.append(acd_s[1])
+            # $
+            acd_real_arr.append(acd_s[2])
+            
+        if "Avaliação Calo de Patas" in str(new_str):
+            
+            acp_sep = remove_empty_spaces(new_str[1].replace("Avaliação Calo de Patas", "").split(" "))
+            
+            # nc_ = (len(acp_sep))
+            # if nc_ == 4:
+            #     # print(acp_sep)
+            #     pass
+            # if nc_ == 3:
+            #     print(acp_sep)
+            #     pass
+                           
+            # %
+            acp_percent_arr.append(acp_sep[0])
+            # kg
+            acp_kg_arr.append(acp_sep[1])
+            # $
+            acp_real_arr.append(acp_sep[2])           
+            
+        if "Avaliação Check-List" in str(new_str):
+            acl_sep = (remove_empty_spaces(new_str[1].replace("Avaliação Check-List", "").split(" ")))
+            nc_ = (len(acl_sep))
+            if nc_ == 4:
+                # %
+                acl_percent = (acl_sep[0])
+                # print(acl_sep[1])
+                # print(acl_[2])
+                
+            if nc_ == 5:
+                # %
+                acl_percent = acl_sep[1]               
+            
+            acl_percent_arr.append(acl_percent)
             pass
         if "" in str(new_str):
             pass
@@ -213,7 +293,7 @@ def main():
     id_uni_f = list(dict.fromkeys(map(str, id_uni)))
     integrado_arr_f = list(dict.fromkeys(map(str, integrado_arr)))
     integrado_arr_f = [f.split(", ")[1] for f in integrado_arr_f]
-    # print(len(id_uni_f))
+    print(len(acl_percent_arr))
     # print(len(integrado_arr_f))
     
     new_dataFrame["CHAVE"] = id_uni_f
@@ -235,11 +315,24 @@ def main():
     new_dataFrame["DIFCA_PREVXREAL"] = dp_arr
     new_dataFrame["PF_PRECO_DO_KG_DO_FRANGO"] = pf_arr
     new_dataFrame["VRAC_VLR_DAS_RACOES"] = vrac_arr
-    # new_dataFrame["PERCENTUAL_BASICO_DE_PARTILHA"] = pbp_arr
-    # new_dataFrame["AVALIACAO_CONVERSAO"] = ac_arr
-    # new_dataFrame["AVALIACAO_CONDENACAO"] = acd_arr
-    # new_dataFrame["AVALIACAO_CALO_DE_PATAS"] = acp_arr
-    # new_dataFrame["AVALIACAO_CHECK_LIST"] = acl_arr
+    
+    new_dataFrame["PERCENTUAL_BASICO_DE_PARTILHA_%"] = pbp_percente_arr
+    new_dataFrame["PERCENTUAL_BASICO_DE_PARTILHA_KG"] = pbp_kg_arr
+    new_dataFrame["PERCENTUAL_BASICO_DE_PARTILHA_$"] = pbp_real_arr
+    
+    new_dataFrame["AVALIACAO_CONVERSAO_%"] = avc_percente_arr
+    new_dataFrame["AVALIACAO_CONVERSAO_KG"] = avc_kg_arr
+    new_dataFrame["AVALIACAO_CONVERSAO_$"] = avc_real_arr
+    
+    new_dataFrame["AVALIACAO_CONDENACAO_%"] = acd_percent_arr
+    new_dataFrame["AVALIACAO_CONDENACAO_KG"] = acd_kg_arr
+    new_dataFrame["AVALIACAO_CONDENACAO_$"] = acd_real_arr
+    
+    new_dataFrame["AVALIACAO_CALO_DE_PATAS_%"] = acp_percent_arr
+    new_dataFrame["AVALIACAO_CALO_DE_PATAS_KG"] = acp_kg_arr
+    new_dataFrame["AVALIACAO_CALO_DE_PATAS_$"] = acp_real_arr
+    
+    new_dataFrame["AVALIACAO_CHECK_LIST_%"] = acl_percent_arr
     # new_dataFrame["RESULTADO_BRUTO_DO_LOTE"] = rbl_arr
     # new_dataFrame["VALOR_RENDA_BRUTA"] = vrb_arr
 
