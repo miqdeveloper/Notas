@@ -1,3 +1,4 @@
+from traceback import print_tb
 import pandas as pd
 import re, ast
 
@@ -97,10 +98,16 @@ acl_percent_arr = []
 acl_kg_arr = []
 acl_real_arr = []
 
-rbl_arr = []
+rbl_percent_arr = []
+rbl_kg_arr = []
+rbl_real_arr = []
 
 
 vrb_arr = []
+vnf_arr = []
+vtd_arr = []
+
+dkm_arr =  []
 
 
 def main():
@@ -270,25 +277,98 @@ def main():
             nc_ = (len(acl_sep))
             if nc_ == 4:
                 # %
-                acl_percent = (acl_sep[0])
+                acl_percent = acl_sep[0]
+                # KG
+                acl_kg_f = acl_sep[1]
+                #$
+                acl_real_f = acl_sep[2]
+                # print(acl_real_f)
+                
+
                 # print(acl_sep[1])
                 # print(acl_[2])
                 
             if nc_ == 5:
                 # %
-                acl_percent = acl_sep[1]               
-            
+                acl_percent = acl_sep[1]
+                # KG
+                acl_kg_f = acl_sep[2]
+                 # $
+                acl_real_f = acl_sep[3]               
+                
+                
             acl_percent_arr.append(acl_percent)
+            acl_kg_arr.append(acl_kg_f)
+            acl_real_arr.append(acl_real_f)
+            
             pass
-        if "" in str(new_str):
-            pass
-        if "" in str(new_str):
-            pass
-        if "" in str(new_str):
-            pass
-        if "" in str(new_str):
-            pass
+        
+        if "Resultado Bruto do Lote" in str(new_str):
+            rbl_s = remove_empty_spaces(new_str[1].replace("Resultado Bruto do Lote", "").split(" "))
+            
+            #%
+            # print(rbl_s[0])
+            rbl_percent_arr.append(rbl_s[0])
+            # rbl_percent_arr.append()
+            
+            #kg
+            # print(rbl_s[1])
+            rbl_kg_arr.append(rbl_s[1])
+            
+            #$
+            # print(rbl_s[2])
+            rbl_real_arr.append(rbl_s[2])
+            
+            
+        if "Valor Renda Bruta" in str(new_str):
+            vrb_s = remove_empty_spaces(new_str[1].replace("Valor Renda Bruta", "").split(" "))
+            n_c = len(vrb_s)
+            
+            if n_c == 1:
+                vrb_f = (vrb_s[0])
+                
+            if n_c == 2:
+                vrb_f = (vrb_s[0])         
+                
+            vrb_arr.append(vrb_f)
+            
+        if "Valor NF" in str(new_str):
+            vnf_s = remove_empty_spaces(new_str[1].replace("Valor NF", "").split(" "))
+            
+            n_c = len(vnf_s)
+            
+            if n_c == 1:
+                vnf_f = vnf_s[0]
+            if n_c == 2:
+                vnf_f = vnf_s[0]
+                        
+            vnf_arr.append(vnf_f)
+        
+        if "Valor Total a Depositar" in str(new_str):
+            vtd_s = remove_empty_spaces(new_str[1].replace("Valor Total a Depositar", "").split(" "))
+            n_c = len(vtd_s)
+            
+            if n_c == 1:
+                vtd_f = vtd_s[0]
+                
+            if n_c == 2:
+                vtd_f = vtd_s[0]
+                
+            
+            
+            vtd_arr.append(vtd_f)
 
+        if "Dist Km" in str(new_str):
+            dk_s = remove_empty_spaces(new_str[1].replace("Dist Km", ", ").split(", ")[-1].split(" "))
+            dkm_f = dk_s[0]
+            dkm_arr.append(dkm_f)
+            
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
     
     id_uni_f = list(dict.fromkeys(map(str, id_uni)))
     integrado_arr_f = list(dict.fromkeys(map(str, integrado_arr)))
@@ -333,8 +413,18 @@ def main():
     new_dataFrame["AVALIACAO_CALO_DE_PATAS_$"] = acp_real_arr
     
     new_dataFrame["AVALIACAO_CHECK_LIST_%"] = acl_percent_arr
-    # new_dataFrame["RESULTADO_BRUTO_DO_LOTE"] = rbl_arr
-    # new_dataFrame["VALOR_RENDA_BRUTA"] = vrb_arr
+    new_dataFrame["AVALIACAO_CHECK_LIST_KG"] = acl_kg_arr
+    new_dataFrame["AVALIACAO_CHECK_LIST_$"] = acl_real_arr
+    
+    new_dataFrame["RESULTADO_BRUTO_DO_LOTE_%"] = rbl_percent_arr
+    new_dataFrame["RESULTADO_BRUTO_DO_LOTE_KG"] = rbl_kg_arr
+    new_dataFrame["RESULTADO_BRUTO_DO_LOTE_$"] = rbl_real_arr
+    
+    new_dataFrame["VALOR_RENDA_BRUTA_CREDITO"] = vrb_arr
+    new_dataFrame["VALOR_NF"] = vnf_arr
+    new_dataFrame["VALOR_TOTAL_A_DEPOSITAR"] = vtd_arr
+    new_dataFrame["DIST_KM"] = dkm_arr
+    
 
     # print(df_2)
     
