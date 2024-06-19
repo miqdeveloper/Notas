@@ -1,4 +1,4 @@
-from traceback import print_tb
+from hmac import new
 import pandas as pd
 import re, ast
 
@@ -363,7 +363,8 @@ def main():
             dkm_f = dk_s[0]
             dkm_arr.append(dkm_f)
             
-        if "" in str(new_str):
+        if "Área disp" in str(new_str):
+            print(new_str)
             pass
         if "" in str(new_str):
             pass
@@ -424,6 +425,7 @@ def main():
     new_dataFrame["VALOR_NF"] = vnf_arr
     new_dataFrame["VALOR_TOTAL_A_DEPOSITAR"] = vtd_arr
     new_dataFrame["DIST_KM"] = dkm_arr
+    # new_dataFrame["AREA_DISP"] = adp_arr
     
 
     # print(df_2)
