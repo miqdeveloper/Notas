@@ -1,4 +1,4 @@
-from hmac import new
+
 import pandas as pd
 import re, ast
 
@@ -108,7 +108,17 @@ vnf_arr = []
 vtd_arr = []
 
 dkm_arr =  []
+adp_arr = []
+qa_arr = []
+dal_arr = []
 
+qad_arr = []
+qabt_arr = []
+
+pma_arr = []
+dtma_arr_d = []
+prbd_arr = []
+homa_arr = []
 
 def main():
     for index, row in df.iterrows():
@@ -319,7 +329,6 @@ def main():
             # print(rbl_s[2])
             rbl_real_arr.append(rbl_s[2])
             
-            
         if "Valor Renda Bruta" in str(new_str):
             vrb_s = remove_empty_spaces(new_str[1].replace("Valor Renda Bruta", "").split(" "))
             n_c = len(vrb_s)
@@ -364,17 +373,80 @@ def main():
             dkm_arr.append(dkm_f)
             
         if "Área disp" in str(new_str):
-            print(new_str)
+            adp_f = (new_str[1].split("Área disp")[-1])
+            adp_arr.append(adp_f)
+            
+        if "Qtde Alojada" in str(new_str):
+            qa_s_f = (new_str[1].split("Data Acerto do Lote")[0].split("Qtde Alojada")[-1])
+            qa_arr.append(qa_s_f)
+            
+        if "Data Acerto do Lote" in str(new_str):
+            dal_s_f = (remove_empty_spaces(new_str[1].split("Data Acerto do Lote")[-1].split(" "))[0])
+            dal_arr.append(dal_s_f)
+        
+        # "Qtde Abatida"
+        if "Qtde Abatida" and "Data Acerto do Lote" in str(new_str):
+            qabt_arr.append(new_str[2])
+        
+        
+        if "Peso Médio Alojado" in str(new_str):
+            pma_s_f = (new_str[1].split("Peso Médio Alojado")[-1].split("Data Média Abate")[0])
+            pma_arr.append(pma_s_f)
+            
+            
+        if "Data Média Abate" in str(new_str):
+            dmab_s_f = (remove_empty_spaces(new_str[1].split("Peso Médio Alojado")[-1].split("Data Média Abate")[-1].split(" "))[0])
+            
+            dtma_arr_d.append(dmab_s_f)
+
+        if "Peso Recebido" in str(new_str):
+            n_c = len(new_str)
+            if n_c == 2:
+                prbd_s_f = remove_empty_spaces(new_str[1].split("Peso Recebido"))[-1]
+                # print(prbd_s_f)                
+            if n_c == 3:
+                prbd_s_f = (new_str[-1])                
+            if n_c == 4:
+                pass
+            
+            prbd_arr.append(prbd_s_f)
+            
+        if "Hora média Abate" in str(new_str):
+            n_c_ = len(new_str[1:])
+            if n_c_ == 1:
+                s_ = (remove_chars_s_points(line_item).split("Hora média Abate:")[-1].split(" "))
+                hmabt_f = (remove_empty_spaces(s_))
+                # print(hmabt_f[0])
+                pass
+            if n_c_ == 2:
+                s_d = remove_empty_spaces(remove_chars_s_points(line_item).split(", ")[1].split("Hora média Abate:")[-1].split(" "))
+                hmabt_f = s_d[0]
+                
+                pass
+            if n_c_ == 3:
+                # print(remove_chars_s_points(line_item))
+                # hmabt_f = s_d[0])
+                pass
+            if n_c_ == 4:
+                pass
+            if n_c_ == 5:
+                # print(line_item)
+                pass
+            homa_arr.append(hmabt_f)
+        if "" in str(new_str):
+            
             pass
         if "" in str(new_str):
+            
             pass
         if "" in str(new_str):
+            
             pass
     
     id_uni_f = list(dict.fromkeys(map(str, id_uni)))
     integrado_arr_f = list(dict.fromkeys(map(str, integrado_arr)))
     integrado_arr_f = [f.split(", ")[1] for f in integrado_arr_f]
-    print(len(acl_percent_arr))
+    print(len(homa_arr))
     # print(len(integrado_arr_f))
     
     new_dataFrame["CHAVE"] = id_uni_f
@@ -425,8 +497,14 @@ def main():
     new_dataFrame["VALOR_NF"] = vnf_arr
     new_dataFrame["VALOR_TOTAL_A_DEPOSITAR"] = vtd_arr
     new_dataFrame["DIST_KM"] = dkm_arr
-    # new_dataFrame["AREA_DISP"] = adp_arr
-    
+    new_dataFrame["AREA_DISP"] = adp_arr
+    new_dataFrame["QTDE_ALOJADA"] = qa_arr
+    new_dataFrame["DATA_ACERTO_DO_LOTE"] = dal_arr
+    new_dataFrame["QTDE_ABATIDA"] = qabt_arr
+    new_dataFrame["PESO_MEDIO_ALOJADO"] = pma_arr
+    new_dataFrame["DATA_MEDIA_ABATE"] = dtma_arr_d
+    new_dataFrame["PESO_RECEBIDO"] = prbd_arr
+    new_dataFrame['HORA_MEDIA_ABATE'] = homa_arr
 
     # print(df_2)
     
