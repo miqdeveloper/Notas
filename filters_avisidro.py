@@ -119,6 +119,16 @@ pma_arr = []
 dtma_arr_d = []
 prbd_arr = []
 homa_arr = []
+rcsmd_arr = []
+pmrl_arr = []
+tpo_arr = []
+gpd_arr = []
+pmpj_arr = []
+ajs_pp_arr = []
+iee_arr = []
+iep_arr = []
+pm_arr = []
+avc_t_arr = []
 
 def main():
     for index, row in df.iterrows():
@@ -413,40 +423,126 @@ def main():
             
         if "Hora média Abate" in str(new_str):
             n_c_ = len(new_str[1:])
+            
             if n_c_ == 1:
                 s_ = (remove_chars_s_points(line_item).split("Hora média Abate:")[-1].split(" "))
-                hmabt_f = (remove_empty_spaces(s_))
-                # print(hmabt_f[0])
-                pass
+                hmabt_f = remove_empty_spaces(s_)
+                hmabt_f =hmabt_f[0]
+                
+                
+                
             if n_c_ == 2:
                 s_d = remove_empty_spaces(remove_chars_s_points(line_item).split(", ")[1].split("Hora média Abate:")[-1].split(" "))
                 hmabt_f = s_d[0]
-                
+                # homa_arr.append(hmabt_f)
+                                
                 pass
             if n_c_ == 3:
                 # print(remove_chars_s_points(line_item))
                 # hmabt_f = s_d[0])
                 pass
-            if n_c_ == 4:
-                pass
-            if n_c_ == 5:
-                # print(line_item)
-                pass
+            # if n_c_ == 4:
+            #     pass
+            # if n_c_ == 5:
+            #     # print(line_item)
+            #     pass
             homa_arr.append(hmabt_f)
-        if "" in str(new_str):
+            # print(hmabt_f)
+            
+        if "Ração Consumida" in str(new_str):
+            
+            nc_ = len(new_str)
+            if nc_ == 2:
+                rcsmd_s_f = (new_str[1].split("Ração Consumida")[-1].replace(" ", ""))
+            if nc_ == 3:
+                rcsmd_s_f = (new_str[-1].replace(" ", ""))
+                
+            # if nc_ == 4:
+            #     # print(new_str)
+            #     pass
+            # rcsmd_s
+            rcsmd_arr.append(rcsmd_s_f)
+        
+        if "Peso Médio Real" in str(new_str):
+            nc_ = len(new_str)
+            # if nc_ == 2:
+            #     # print(new_str)
+            #     pass
+            if nc_ == 3:
+                pmrl_s_f = (new_str[-1].replace(" ", ""))
+                pass
+            # if nc_ == 4:
+            #     # print(new_str)
+            #     pass
+            pmrl_arr.append(pmrl_s_f)
             
             pass
-        if "" in str(new_str):
+        
+        if "Tipo Produto" and "Linhagem" in str(new_str):
             
+            tpo_s_f = (remove_empty_spaces(new_str[1].split("Tipo Produto")[1].split(" "))[0])
+            tpo_arr.append(tpo_s_f)
+            
+        if "GPD" and "Linhagem" in str(new_str):
+            gpd_s_f = (remove_empty_spaces(new_str[1].split("GPD")[1].split(" "))[0])
+            gpd_arr.append(gpd_s_f)
+        
+        if "Peso Médio Projetado" in str(new_str):
+            nc_ = len(new_str)
+            if nc_ == 2:
+                
+                pass
+            
+            if nc_ == 3:
+                pmpj_s_f = (new_str[-1])
+                pmpj_arr.append(pmpj_s_f)
+                pass
+            
+            if nc_ == 4:
+                # print(new_str)
+                pass
+            pass
+        if "Ajs Peso Pinto" in str(new_str):
+            ajs_pp_s_f= (remove_empty_spaces(new_str[1].split("Ajs Peso Pinto")[-1].split(" "))[0])
+            ajs_pp_arr.append(ajs_pp_s_f)
+            
+        if "IEE" in str(new_str):
+            
+            iee_s_f = remove_empty_spaces(new_str[1].split("IEE")[-1].split(" "))[0]
+            iee_arr.append(iee_s_f)
+            
+        if "IEP" in str(new_str):
+            iep_s_f = remove_empty_spaces((new_str[1].split("IEP"))[-1].split(" "))[0]
+            iep_arr.append(iep_s_f)
+            
+        if "PM Real - PM Projetado" in str(new_str):
+            pm_arr.append(new_str[-1])
+            
+        if "Aves Condenadas Total" in str(new_str):
+           avc_t_s_f =  remove_empty_spaces(new_str[1].split("No Aves Condenadas Total"))[-1].replace(" ","")
+           avc_t_arr.append(avc_t_s_f)
+        
+        if "" in str(new_str):
             pass
         if "" in str(new_str):
-            
             pass
-    
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+        if "" in str(new_str):
+            pass
+
     id_uni_f = list(dict.fromkeys(map(str, id_uni)))
     integrado_arr_f = list(dict.fromkeys(map(str, integrado_arr)))
     integrado_arr_f = [f.split(", ")[1] for f in integrado_arr_f]
-    print(len(homa_arr))
+    print(len(iep_arr))
     # print(len(integrado_arr_f))
     
     new_dataFrame["CHAVE"] = id_uni_f
@@ -505,6 +601,16 @@ def main():
     new_dataFrame["DATA_MEDIA_ABATE"] = dtma_arr_d
     new_dataFrame["PESO_RECEBIDO"] = prbd_arr
     new_dataFrame['HORA_MEDIA_ABATE'] = homa_arr
+    new_dataFrame['RACAO_CONSUMIDA'] = rcsmd_arr
+    new_dataFrame['PESO_MEDIO_REAL'] = pmrl_arr
+    new_dataFrame['TIPO_PRODUTO'] = tpo_arr
+    new_dataFrame["GPD"] = gpd_arr
+    new_dataFrame["PESO_MEDIO_PROJETADO"] = pmpj_arr
+    new_dataFrame["AJS_PESO_PINTO"] = ajs_pp_arr
+    new_dataFrame["IEE"] = iee_arr
+    new_dataFrame["IEP"] = iep_arr
+    new_dataFrame['PM_REAL_PM_PROJETADO'] = pm_arr
+    new_dataFrame['AVES_CONDENADAS_TOTAL'] = avc_t_arr
 
     # print(df_2)
     

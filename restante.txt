@@ -41,17 +41,20 @@
 
 # Peso Médio Alojado - 
 # Data Média Abate - 
-# Peso Recebido
-# Hora média Abate
-# Ração Consumida
-# Peso Médio Real
-# Tipo Produto
-# GPD
-# Peso Médio Projetado
-# Ajs Peso Pinto
-# IEE
-# IEP
-# PM Real - PM Projetado
+# Peso Recebido - 
+# Hora média Abate -
+# Ração Consumida - 
+
+# Peso Médio Real -
+# Tipo Produto - 
+# GPD - 
+# Peso Médio Projetado -
+
+# Ajs Peso Pinto - 
+# IEE - 
+# IEP - 
+
+# PM Real - PM Projetado - 
 # No Aves Condenadas Total
 # No Aves Condenadas Parcial
 # No de Patas Condenadas
