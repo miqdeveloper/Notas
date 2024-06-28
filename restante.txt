@@ -55,18 +55,23 @@
 # IEP - 
 
 # PM Real - PM Projetado - 
-# No Aves Condenadas Total
-# No Aves Condenadas Parcial
-# No de Patas Condenadas
-# Pc Condenações - Previsto
-# Pc Calo de Pata - Previsto
-# Mort. Prev
-# Pc Condenações - Real
-# Pc Calo de Pata - Real
-# Mort. Real
-# Difça Cond (Prev-Real)
-# Difça Calo Pata (Prev-Real) 
-# Difça (PrevXReal)
+
+# No Aves Condenadas Parcial -
+# No de Patas Condenadas -
+# Pc Condenações - Previsto -
+# Pc Calo de Pata - Previsto - 
+# Mort. Prev - 
+# Pc Condenações - Real -
+
+# Pc Calo de Pata - Real - 
+
+
+# Mort. Real - 
+
+# Difça Cond (Prev-Real) - 
+
+# Difça Calo Pata (Prev-Real)  - 
+# Difça (PrevXReal) - 
 
 
 

@@ -1,7 +1,8 @@
 
+from os import remove
 import pandas as pd
 import re, ast
-
+from tqdm import tqdm
 file_execel = "ArquivosCSV/file_csv_avisidro.csv"
 
 # df_2 = pd.read_csv(file_execel, encoding="utf-8", index_col=0)   
@@ -80,7 +81,7 @@ vrac_arr = []
 pbp_percente_arr = []
 pbp_kg_arr = []
 pbp_real_arr = []
-
+pcp_arr = []
 
 avc_percente_arr = []
 avc_kg_arr = []
@@ -129,11 +130,25 @@ iee_arr = []
 iep_arr = []
 pm_arr = []
 avc_t_arr = []
+pmr_pmp_arr = []
+nacp_arr = []
+npc_arr = []
+pcp_arr = []
+pcpp_arr = []
+mrt_prv_arr = []
+pcrl_arr  = []
+pcpr_arr = []
+mr_arr = []
+dc_pr_arr = []
+dc_pr_arr = []
+dcp_pr_arr = []
+dpxr_arr = []
 
 def main():
+    print("Filtrando aguarde...")
     for index, row in df.iterrows():
         line_item = str(row.iloc[0])
-       
+    
         
         new_str = re.sub(r"\[|\]", "", line_item)
         new_str = remove_empty_spaces(remove_chars(new_str).split(", "))
@@ -496,7 +511,6 @@ def main():
             if nc_ == 3:
                 pmpj_s_f = (new_str[-1])
                 pmpj_arr.append(pmpj_s_f)
-                pass
             
             if nc_ == 4:
                 # print(new_str)
@@ -522,27 +536,72 @@ def main():
            avc_t_s_f =  remove_empty_spaces(new_str[1].split("No Aves Condenadas Total"))[-1].replace(" ","")
            avc_t_arr.append(avc_t_s_f)
         
-        if "" in str(new_str):
-            pass
-        if "" in str(new_str):
-            pass
-        if "" in str(new_str):
-            pass
-        if "" in str(new_str):
-            pass
-        if "" in str(new_str):
-            pass
-        if "" in str(new_str):
-            pass
-        if "" in str(new_str):
-            pass
-        if "" in str(new_str):
+        if "PM Real - PM Projetado" in str(new_str):
+            pmr_pmp = new_str[-1]
+            # print(pmr_pmp)
+            pmr_pmp_arr.append(pmr_pmp)
+            
+        if "No Aves Condenadas Parcial" in str(new_str):
+            nacp_s_f = (remove_empty_spaces( new_str[1].split("No Aves Condenadas Parcial")[-1].split(" "))[0])
+            nacp_arr.append(nacp_s_f)
+            
+            
+        if "No de Patas Condenadas" in str(new_str):
+            npc_s_f = (remove_empty_spaces(new_str[1].split("No de Patas Condenadas")[-1].split(" "))[0])
+            npc_arr.append(npc_s_f)
+            
+        if "Pc Condenações - Previsto" in str(new_str):
+            pcp_s_f = (remove_empty_spaces(new_str[1].split("Pc Condenações - Previsto")[1].split(" "))[0] )
+            pcp_arr.append(pcp_s_f)
+            
+        if "Pc Calo de Pata - Previsto" in str(new_str):
+            pcpp_s_f = (remove_empty_spaces(new_str[1].split("Pc Calo de Pata - Previsto")[1].split(" "))[0])
+            pcpp_arr.append(pcpp_s_f)
+            
+        if "Mort. Prev" in str(new_str):
+            mrt_prv_s_f =  (remove_empty_spaces(new_str[-1].split("Mort. Prev."))[0].replace(" ", ""))
+            mrt_prv_arr.append(mrt_prv_s_f)
+            
+            
+        if "Pc Condenações - Real" in str(new_str):
+            pcrl_s_f = remove_empty_spaces(new_str[1].split("Pc Condenações - Real")[1].split(" "))[0]
+            pcrl_arr.append(pcrl_s_f)
+            
+        if "Pc Calo de Pata - Real" in str(new_str):
+            pcpr_s_f = remove_empty_spaces(new_str[1].split("Pc Calo de Pata - Real")[1].split(" "))[0]
+            pcpr_arr.append(pcpr_s_f)
+            
+        
+        if "Mort. Real" in str(new_str):
+            n_c_ = len(new_str)
+            # print(n_c_)
+            if n_c_ == 3:
+                mr_s_f = remove_empty_spaces(new_str[-1].split("Mort. Real"))[0].replace(" ", "")
+                mr_arr.append(mr_s_f)
+                # pass
+            # elif n_c_ == 4:
+            #     print(new_str)
+            #     pass
+
+        if "Difça Cond (Prev-Real)" in str(new_str):
+            dc_pr_s_f = ( remove_empty_spaces(new_str[1].split("Difça Cond (Prev-Real)")[-1].split(" "))[0])
+            dc_pr_arr.append(dc_pr_s_f)
+        
+        
+        if "Difça Calo Pata (Prev-Real)" in str(new_str):
+            dcp_s_f = remove_empty_spaces(new_str[1].split("Difça Calo Pata (Prev-Real)")[-1].split(" "))[0]
+            dcp_pr_arr.append(dc_pr_s_f)
+            
+        if "Difça (PrevXReal)" in str(new_str):
+            dpxr_s_f = remove_empty_spaces(new_str[1].split("Difça (PrevXReal)")[1].split(" "))[0]
+            dpxr_arr.append(dpxr_s_f)
             pass
 
     id_uni_f = list(dict.fromkeys(map(str, id_uni)))
     integrado_arr_f = list(dict.fromkeys(map(str, integrado_arr)))
     integrado_arr_f = [f.split(", ")[1] for f in integrado_arr_f]
-    print(len(iep_arr))
+    # print(len(pmr_pmp_arr))
+    
     # print(len(integrado_arr_f))
     
     new_dataFrame["CHAVE"] = id_uni_f
@@ -611,8 +670,26 @@ def main():
     new_dataFrame["IEP"] = iep_arr
     new_dataFrame['PM_REAL_PM_PROJETADO'] = pm_arr
     new_dataFrame['AVES_CONDENADAS_TOTAL'] = avc_t_arr
+    new_dataFrame["N_AVES_CONDENADAS_PARCIAL"] = nacp_arr
+    new_dataFrame["N_PATAS_CONDENADAS"] = npc_arr
+    new_dataFrame["PC_CODENACOES_PREVISTO"] = pcp_arr
+    new_dataFrame["PC_CALO_DE_PATA_PREVISTO"] = pcpp_arr
+    new_dataFrame["MORT_PREV"] = mrt_prv_arr
+    new_dataFrame["PC_CODENACOES_REAL"] = pcrl_arr
+    new_dataFrame["PC_CALO_DE_PATA_REAL"] = pcpr_arr
+    new_dataFrame["MORT_REAL"] = mr_arr
+    new_dataFrame["DIFCA_COND_PREV_REAL"] = dc_pr_arr    
+    new_dataFrame["DIFCA_CALO_PATA_PREV_REAL"] = dcp_pr_arr    
+    new_dataFrame["DIFCA_PREV_X_REAL"] = dpxr_arr
+    
+    
+    
+    
+    
+    
 
     # print(df_2)
-    
+    print("Slavando arquivo...")
     new_dataFrame.to_csv("ArquivosCSV/avisidro_tabela.csv", mode="w", index=False)
+    input("Arquivo salvo com sucesso...")
 main()
